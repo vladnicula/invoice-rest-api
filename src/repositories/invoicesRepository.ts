@@ -14,8 +14,8 @@ export class InvoicesRepository extends BaseRepository<InvoiceData> {
         super("invoices.json");
     }
 
-    async getByInvoiceNumberAndUserId (id: string, user_id: string) {
-        return this.inMemoryData.find((item) => item.id === id)
+    async getByInvoiceNumberAndUserId (invoice_number: string, user_id: string) {
+        return this.inMemoryData.find((item) => item.invoice_number === invoice_number && item.user_id === user_id)
     }
 
     async add(invoice: Omit<InvoiceData, "id">) {

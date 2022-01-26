@@ -1,0 +1,26 @@
+[
+    {
+        "user_id": "123",
+        "email": "testcreation123@test.com",
+        "name": "John",
+        "companyDetails": {
+            "name": "company",
+            "vatNumber": "123",
+            "regNumber": "123",
+            "address": "Home"
+        },
+        "id": "1643199844790"
+    },
+    {
+        "user_id": "123",
+        "email": "123",
+        "name": "John",
+        "companyDetails": {
+            "name": "testnewcompany",
+            "vatNumber": "newcompany123",
+            "regNumber": "newcompany123",
+            "address": "Home"
+        },
+        "id": "1643199844798"
+    }
+]

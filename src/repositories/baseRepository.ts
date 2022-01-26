@@ -19,7 +19,7 @@ export class BaseRepository<Model extends {[key: string]: unknown, id: string}> 
                 }
 
                 try {
-                    resolve(JSON.parse(data))
+                    resolve(JSON.parse(data ?? "[]"))
                 } catch (err) {
                     reject(err)
                 }
