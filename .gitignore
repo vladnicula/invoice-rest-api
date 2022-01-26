@@ -1,5 +1,10 @@
 .DS_Store
 
+# Ignore test json data files
+fake-database-testing/users.json
+fake-database-testing/invoices.json
+fake-database-testing/clients.json
+
 # Logs
 logs
 *.log
