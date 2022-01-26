@@ -1,0 +1,33 @@
+[
+    {
+        "id": "1111111",
+        "email": "tarzan@jungle.com",
+        "password": "123456",
+        "companyDetails": {
+            "name": "Acme Inc",
+            "address": "1st Bulevard Street",
+            "vatNumber": "1234",
+            "regNumber": "9876"
+        }
+    },
+    {
+        "email": "userRepositoryTest.user@test.com",
+        "password": "123_123",
+        "id": "1643183406883"
+    },
+    {
+        "email": "unique_test.user@test.com",
+        "password": "123_123",
+        "id": "1643183406884"
+    },
+    {
+        "email": "unique-testnewuser@test.com",
+        "password": "123__123",
+        "id": "1643183407098"
+    },
+    {
+        "email": "doubleuser@test.com",
+        "password": "123__123",
+        "id": "1643183407103"
+    }
+]
