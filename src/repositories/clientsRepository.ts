@@ -1,7 +1,8 @@
 import { BaseRepository } from './baseRepository';
 import { CompanyDetails } from './company';
+import { jsonDir } from '../config'
 
-type ClientData = {
+export type ClientData = {
     id: string
     user_id: string
     email: string
@@ -10,6 +11,17 @@ type ClientData = {
 };
 
 export class ClientsRepository extends BaseRepository<ClientData> {
+
+    private static _instance: ClientsRepository;
+
+    static async getInstance () {
+        if (!ClientsRepository._instance) {
+            ClientsRepository._instance = new ClientsRepository();
+            await ClientsRepository._instance.init(jsonDir);
+        }
+        return ClientsRepository._instance;
+    }
+
     constructor () {
         super("clients.json");
     }

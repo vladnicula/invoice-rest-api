@@ -4,9 +4,8 @@ import { ClientsRepository } from '../src/repositories/clientsRepository'
 
 let repo: ClientsRepository;
 beforeAll(async () => {
-    repo = new ClientsRepository();
-    const fullPath = path.resolve(__dirname, `../${process.env.PATH_TO_JSON_DIR}`)
-    await repo.init(fullPath);
+    repo = await ClientsRepository.getInstance()
+    repo.disableAutoWriteToDisk = true;
 })
 
 it("Adds client to repository", async () => {

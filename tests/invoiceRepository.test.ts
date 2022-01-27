@@ -1,12 +1,10 @@
-import path from 'path'
 import { InvoicesRepository } from '../src/repositories/invoicesRepository'
 
 
 let repo: InvoicesRepository;
 beforeAll(async () => {
-    repo = new InvoicesRepository();
-    const fullPath = path.resolve(__dirname, `../${process.env.PATH_TO_JSON_DIR}`)
-    await repo.init(fullPath);
+    repo = await InvoicesRepository.getInstance()
+    repo.disableAutoWriteToDisk = true;
 })
 
 it("Adds invoice to repository", async () => {
