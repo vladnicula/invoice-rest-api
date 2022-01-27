@@ -141,6 +141,6 @@ it("Gets invoices by user id filterd by date, sorted by price DESC", async () =>
     expect(response[0].invoice.date).toBeLessThan(7501)
     expect(response[1].invoice.date).toBeGreaterThanOrEqual(5000)
     expect(response[1].invoice.date).toBeLessThan(7501)
-    expect(response[0].invoice.value).toBeLessThanOrEqual(response[1].invoice.value)
+    expect(response[0].invoice.value).toBeGreaterThanOrEqual(response[1].invoice.value)
     
 })

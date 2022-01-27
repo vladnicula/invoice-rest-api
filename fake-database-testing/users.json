@@ -9,5 +9,15 @@
             "vatNumber": "1234",
             "regNumber": "9876"
         }
+    },
+    {
+        "email": "unique-testnewuser@test.com",
+        "password": "123__123",
+        "id": "1643292558525"
+    },
+    {
+        "email": "doubleuser@test.com",
+        "password": "123__123",
+        "id": "1643292558531"
     }
 ]

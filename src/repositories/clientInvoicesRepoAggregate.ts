@@ -91,7 +91,7 @@ export class ClientInvoicesRepoAggregate {
             if ( sort.price ) {
                 const coef = sort.price === 'asc' ? 1 : -1;
                 sortedResults = sortedResults.sort((a, b) => {
-                    if ( a.invoice.value < b.invoice.value ) {
+                    if ( a.invoice.value > b.invoice.value ) {
                         return coef;
                     } 
                     return -coef;

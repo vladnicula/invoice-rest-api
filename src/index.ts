@@ -7,10 +7,10 @@ const envFile = process.env.ENVIRONMENT ? `.env.${process.env.ENVIRONMENT}` : '.
 console.log("PATH", path.resolve(__dirname, `../${envFile}`))
 dotenv.config({ path: path.resolve(__dirname, `../${envFile}`) })
 
-import { app } from './app'
+import { app, setup } from './app'
 
 const port = process.env.PORT || 8080  // default port to listen
 
-app.listen(port, () => {
+setup().then(() => app.listen(port, () => {
     console.log( `server started at http://localhost:${ port }` )
-})
+}));
