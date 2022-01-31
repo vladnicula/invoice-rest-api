@@ -6,18 +6,29 @@ type InvoiceWithClientDetails = {
     client: ClientData
 }
 
-type SortingByArgs = {
+export type InvoiceListingSortingByArgs = {
     date?: "asc" | "desc"
     price?: "asc" | "desc"
     companyName?: "asc" | "desc"
 }
 
-type FilterByArgs = {
+export type InvoiceListingFilterByArgs = {
     clientId?: string
     date?: {
         start?: number
         end?: number
     }
+}
+
+export type ClientListingSortingByArgs = {
+    clientName?: "asc" | "desc"
+    companyName?: "asc" | "desc"
+    totalBilled?: "asc" | "desc"
+}
+
+export type ClientListingFilterByArgs = {
+    clientName?: string
+    companyName?: string
 }
 
 export class ClientInvoicesRepoAggregate {
@@ -28,7 +39,6 @@ export class ClientInvoicesRepoAggregate {
             ClientInvoicesRepoAggregate._instance = new ClientInvoicesRepoAggregate();
             ClientInvoicesRepoAggregate._instance.invoicesRepo = await InvoicesRepository.getInstance();
             ClientInvoicesRepoAggregate._instance.clientsRepo = await ClientsRepository.getInstance();
-            // await ClientInvoicesRepoAggregate._instance.init(jsonDir);
         }
         return ClientInvoicesRepoAggregate._instance;
     }
@@ -36,8 +46,8 @@ export class ClientInvoicesRepoAggregate {
     private invoicesRepo: InvoicesRepository;
     private clientsRepo: ClientsRepository;
 
-    async getInvoices(params: {userId:string, filter?: FilterByArgs, sort?: SortingByArgs, offset?: number}) {
-        const { filter = {}, sort = {}, userId, offset = 0 } = params;
+    async getInvoices(params: {userId:string, filter?: InvoiceListingFilterByArgs, sort?: InvoiceListingSortingByArgs, offset?: number, limit?: number}) {
+        const { filter = {}, sort = {}, userId, offset = 0, limit = 20 } = params;
         
         const allInvoices = this.invoicesRepo.getByUserId(userId)
         const allResults: InvoiceWithClientDetails[] = [];
@@ -92,6 +102,61 @@ export class ClientInvoicesRepoAggregate {
                 const coef = sort.price === 'asc' ? 1 : -1;
                 sortedResults = sortedResults.sort((a, b) => {
                     if ( a.invoice.value > b.invoice.value ) {
+                        return coef;
+                    } 
+                    return -coef;
+                })
+            }
+        }
+
+        return sortedResults;
+    }
+
+
+    async getClients(params: { userId: string; filter: InvoiceListingFilterByArgs; sort: ClientListingSortingByArgs; offset?: number, limit?: number }) {
+        const { filter = {}, sort = {}, userId, offset = 0, limit = 20 } = params;
+        const allClients = await this.clientsRepo.getByUserId(userId)
+        const allInvoices = await this.invoicesRepo.getByUserId(userId)
+
+
+        const allClientsWithTotalBilled = allClients.map((client) => {
+            return {
+                ...client,
+                totalBilled: allInvoices.reduce((acc, item) => {
+                    if ( item.client_id === client.id) {
+                        return acc + item.value
+                    }
+                    return acc;
+                }, 0)
+            }
+        })
+
+        let sortedResults = allClientsWithTotalBilled;
+        if ( Object.keys(sort).length ) {
+            if ( sort.clientName ) {
+                const coef = sort.clientName === 'asc' ? 1 : -1
+                sortedResults = sortedResults.sort((a,b) => {
+                    if ( a.name > b.name ) {
+                        return coef;
+                    } 
+                    return -coef;
+                });
+            }
+
+            if ( sort.companyName ) {
+                const coef = sort.companyName === 'asc' ? 1 : -1;
+                sortedResults = sortedResults.sort((a, b) => {
+                    if ( a.companyDetails.name > b.companyDetails.name ) {
+                        return coef;
+                    } 
+                    return -coef;
+                })
+            }
+
+            if ( sort.totalBilled ) {
+                const coef = sort.totalBilled === 'asc' ? 1 : -1;
+                sortedResults = sortedResults.sort((a, b) => {
+                    if ( a.totalBilled > b.totalBilled ) {
                         return coef;
                     } 
                     return -coef;
