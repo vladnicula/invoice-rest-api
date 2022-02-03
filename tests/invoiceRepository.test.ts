@@ -13,6 +13,7 @@ it("Adds invoice to repository", async () => {
         user_id: "123",
         client_id: "123",
         date: new Date().getTime(),
+        dueDate: new Date().getTime() + (30*24*60*60*1000),
         value: 1234
     })
 
@@ -25,6 +26,7 @@ it("Does not add invoice if same client and invoice number already exists", asyn
         user_id: "123",
         client_id: "123",
         date: new Date().getTime(),
+        dueDate: new Date().getTime() + (30*24*60*60*1000),
         value: 1234
     })
 
@@ -39,6 +41,7 @@ it("Does not add invoice if same client and invoice number already exists", asyn
             user_id: "123",
             client_id: "123",
             date: new Date().getTime(),
+            dueDate: new Date().getTime() + (30*24*60*60*1000),
             value: 1234
         })
 

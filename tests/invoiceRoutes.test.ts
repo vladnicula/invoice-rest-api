@@ -60,6 +60,7 @@ beforeAll(async () => {
         user_id: TEST_USER_ID,
         client_id: client1.id,
         date: 1000,
+        dueDate: 12000,
         value: 1000
     })
 
@@ -68,6 +69,7 @@ beforeAll(async () => {
         user_id: TEST_USER_ID,
         client_id: client1.id,
         date: 5000,
+        dueDate: 12000,
         value: 1000
     })
 
@@ -76,6 +78,7 @@ beforeAll(async () => {
         user_id: TEST_USER_ID,
         client_id: client2.id,
         date: 7500,
+        dueDate: 12000,
         value: 2000
     })
 
@@ -84,6 +87,7 @@ beforeAll(async () => {
         user_id: TEST_USER_ID,
         client_id: client1.id,
         date: 10000,
+        dueDate: 12000,
         value: 1500
     })
 })
@@ -152,3 +156,32 @@ it('Gets list by client id, sorted by price, desc', async () => {
     expect(invoicesResponse.body.invoices).toHaveLength(3)
     expect(invoicesResponse.body.invoices[0].invoice).toHaveProperty("value", 1500);
 })
+
+it("Adds an invoice", async () => {
+
+    const creationDate = new Date().getTime();
+
+    const requestAgent = supertest.agent(app, null)
+
+    const response = await requestAgent
+        .post('/login')
+        .set('Content-Type', 'application/json')
+        .send({ email: TEST_USER_EMAIL, password: TEST_USER_PASS })
+
+    const invoicesResponse = await requestAgent
+        .post('/invoices')
+        .set("x-access-token", response.body.token)
+        .set('Content-Type', 'application/json')
+        .send({
+            invoice_number: "1234",
+            user_id: "123",
+            client_id: client1Model.id,
+            date: creationDate,
+            value: 1234
+        })
+
+    expect(invoicesResponse.status).toBe(200)
+    expect(invoicesResponse.body).toHaveProperty("success", true);
+    expect(invoicesResponse.body).toHaveProperty("invoice");
+    expect(invoicesResponse.body.invoice).toHaveProperty("id");
+});

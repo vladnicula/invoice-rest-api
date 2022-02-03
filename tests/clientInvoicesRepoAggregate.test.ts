@@ -1,3 +1,4 @@
+import { exec } from 'child_process';
 import { ClientInvoicesRepoAggregate } from '../src/repositories/clientInvoicesRepoAggregate'
 import { ClientsRepository, ClientData } from '../src/repositories/clientsRepository'
 import { InvoicesRepository } from '../src/repositories/invoicesRepository'
@@ -54,6 +55,7 @@ beforeAll(async () => {
         user_id: targetUserId,
         client_id: client1.id,
         date: 1000,
+        dueDate: 12000,
         value: 1000
     })
 
@@ -62,6 +64,7 @@ beforeAll(async () => {
         user_id: targetUserId,
         client_id: client1.id,
         date: 5000,
+        dueDate: 12000,
         value: 1000
     })
 
@@ -70,6 +73,8 @@ beforeAll(async () => {
         user_id: targetUserId,
         client_id: client2.id,
         date: 7500,
+        // very large due date
+        dueDate: 200000,
         value: 2000
     })
 
@@ -78,6 +83,7 @@ beforeAll(async () => {
         user_id: targetUserId,
         client_id: client1.id,
         date: 10000,
+        dueDate: 12000,
         value: 1000
     })
 })
@@ -143,4 +149,72 @@ it("Gets invoices by user id filterd by date, sorted by price DESC", async () =>
     expect(response[1].invoice.date).toBeLessThan(7501)
     expect(response[0].invoice.value).toBeGreaterThanOrEqual(response[1].invoice.value)
     
+})
+
+it("Gets invoices by user id sorted by due date ASC", async () => {
+    const response = await aggregated.getInvoices({
+        userId: targetUserId,
+        sort: {
+            dueDate: "asc"
+        }
+    })
+
+    expect(response).toHaveLength(4)
+    expect(response[3].invoice.dueDate).toBeGreaterThanOrEqual(response[2].invoice.dueDate)
+    expect(response[2].invoice.dueDate).toBeGreaterThanOrEqual(response[1].invoice.dueDate)
+    expect(response[1].invoice.dueDate).toBeGreaterThanOrEqual(response[0].invoice.dueDate)
+})
+
+it("Gets invoices by user id where due date is less than a specific value", async () => {
+    const response = await aggregated.getInvoices({
+        userId: targetUserId,
+        sort: {
+            dueDate: "asc"
+        },
+        filter: {
+            dueDate: {
+                end: 200000
+            }
+        }
+    })
+
+    expect(response).toHaveLength(3)
+    expect(response[2].invoice.dueDate).toBeGreaterThanOrEqual(response[1].invoice.dueDate)
+    expect(response[1].invoice.dueDate).toBeGreaterThanOrEqual(response[0].invoice.dueDate)
+})
+
+it("Add new invoice for valid user_id, client combination", async () => {
+    const creationDate = new Date().getTime();
+    const expectedDueDate = creationDate + 30 * 24 * 60 * 60 * 1000;
+    const response = await aggregated.addInvoice({
+        user_id: targetUserId,
+        invoiceData: {
+            invoice_number: "1234",
+            client_id: client1Model.id,
+            date: creationDate,
+            value: 1234
+        }
+    })
+
+    expect(response).toHaveProperty("dueDate", expectedDueDate);
+})
+
+it("Does not add new invoice for in-valid user_id, client combination", async () => {
+    const creationDate = new Date().getTime();
+    let didThrowError = null;
+    try {
+        const response = await aggregated.addInvoice({
+            user_id: targetUserId,
+            invoiceData: {
+                invoice_number: "1234",
+                client_id: "randomInvalidID",
+                date: creationDate,
+                value: 1234
+            }
+        })      
+    } catch (err) {
+        didThrowError = err;
+    }
+
+    expect(didThrowError).toBeTruthy();
 })

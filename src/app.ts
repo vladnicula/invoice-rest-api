@@ -19,7 +19,7 @@ mainRoutes(app)
 
 export const setup = async () => {
     const invoiceRepo = await InvoicesRepository.getInstance();
-    app.set("invoiceRepo", invoiceRepo);
+    app.set("invoicesRepo", invoiceRepo);
     const invoiceClientAggregate = await ClientInvoicesRepoAggregate.getInstance();
     app.set("invoiceClientAggregate", invoiceClientAggregate);
     const clientsRepo = await ClientsRepository.getInstance();

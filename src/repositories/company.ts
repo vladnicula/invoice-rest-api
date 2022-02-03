@@ -3,4 +3,6 @@ export type CompanyDetails = {
     address: string
     vatNumber: string
     regNumber: string
+    iban?: string
+    swift?: string
 }

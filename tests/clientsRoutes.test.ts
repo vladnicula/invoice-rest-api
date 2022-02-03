@@ -57,6 +57,7 @@ beforeAll(async () => {
         user_id: targetUserId,
         client_id: client1.id,
         date: 1000,
+        dueDate: 12000,
         value: 1000
     })
 
@@ -65,6 +66,7 @@ beforeAll(async () => {
         user_id: targetUserId,
         client_id: client1.id,
         date: 5000,
+        dueDate: 12000,
         value: 1000
     })
 
@@ -73,6 +75,7 @@ beforeAll(async () => {
         user_id: targetUserId,
         client_id: client2.id,
         date: 7500,
+        dueDate: 12000,
         value: 2000
     })
 
@@ -81,6 +84,7 @@ beforeAll(async () => {
         user_id: targetUserId,
         client_id: client1.id,
         date: 10000,
+        dueDate: 12000,
         value: 1000
     })
 })

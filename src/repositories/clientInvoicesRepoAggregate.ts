@@ -10,11 +10,17 @@ export type InvoiceListingSortingByArgs = {
     date?: "asc" | "desc"
     price?: "asc" | "desc"
     companyName?: "asc" | "desc"
+    dueDate?: "asc" | "desc"
 }
 
 export type InvoiceListingFilterByArgs = {
     clientId?: string
     date?: {
+        start?: number
+        end?: number
+    }
+
+    dueDate?: {
         start?: number
         end?: number
     }
@@ -73,6 +79,14 @@ export class ClientInvoicesRepoAggregate {
                     return item.invoice.date >= startDate && item.invoice.date < endDate;
                 })
             }
+
+            if ( filter.dueDate ) {
+                const startDate = filter.dueDate.start ?? -Infinity;
+                const endDate = filter.dueDate.end ?? Infinity;
+                filteredResults = filteredResults.filter((item) => {
+                    return item.invoice.dueDate >= startDate && item.invoice.dueDate < endDate;
+                })
+            }
            
         }
 
@@ -82,6 +96,16 @@ export class ClientInvoicesRepoAggregate {
                 const coef = sort.date === 'asc' ? 1 : -1
                 sortedResults = sortedResults.sort((a,b) => {
                     if ( a.invoice.date > b.invoice.date ) {
+                        return coef;
+                    } 
+                    return -coef;
+                });
+            }
+
+            if ( sort.dueDate ) {
+                const coef = sort.dueDate === 'asc' ? 1 : -1
+                sortedResults = sortedResults.sort((a,b) => {
+                    if ( a.invoice.dueDate > b.invoice.dueDate ) {
                         return coef;
                     } 
                     return -coef;
@@ -165,5 +189,48 @@ export class ClientInvoicesRepoAggregate {
         }
 
         return sortedResults;
+    }
+
+
+    async addInvoice (params: { user_id: string, invoiceData: Partial<InvoiceData> } ) {
+        const { 
+            invoice_number,
+            client_id,
+            date,
+            dueDate,
+            value,
+         } = params.invoiceData
+
+         if ( 
+            !(invoice_number && client_id && date && value)
+         ) {
+            throw new Error("Invalid invoice payload. Need invoice_number && client_id && date && value")
+         }
+
+         const clientExists = await this.clientsRepo.getById(client_id)
+
+         if ( !clientExists ) {
+            throw new Error("Client does not exist for specified user id")
+         }
+
+         const userId = params.user_id;
+
+         // pretend that the client does not exist, as it belongs to a different user
+         if ( clientExists.user_id !== userId ) {
+            throw new Error("Client does not exist for spcified user id")
+         }
+
+         const validDueDate = dueDate || date + (30*24*60*60*1000)
+
+         const createdInvoice = await this.invoicesRepo.add({
+            user_id: userId,
+            invoice_number,
+            client_id,
+            date,
+            dueDate: validDueDate,
+            value,
+         })
+
+         return createdInvoice;
     }
 }

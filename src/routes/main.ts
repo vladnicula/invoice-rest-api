@@ -1,6 +1,8 @@
 import { Express } from 'express'
 import { ClientInvoicesRepoAggregate } from '../repositories/clientInvoicesRepoAggregate'
 import { verifyTokenMiddleware } from "../middleware/verifyTokenMiddleware"
+import { ClientsRepository } from '../repositories/clientsRepository'
+import { InvoiceData, InvoicesRepository } from '../repositories/invoicesRepository'
 
 export const mainRoutes = (app: Express ) => {
     app.get("/dashboard", verifyTokenMiddleware, (req, res) => {
@@ -19,7 +21,17 @@ export const mainRoutes = (app: Express ) => {
         } catch (err) {
             res.status(500).send(err.message)
         }
-        
+    })
+
+    app.post("/invoices", verifyTokenMiddleware, async (req, res) => {
+       try {
+        const invoiceAggregate = app.get("invoiceClientAggregate") as ClientInvoicesRepoAggregate
+        const userId = (req as any).user.user_id as string;
+        const result = await invoiceAggregate.addInvoice({user_id: userId, invoiceData: req.body as Partial<InvoiceData> })
+        return res.json({success: true, invoice: result})
+       } catch (err) {
+           res.status(500).send(err.message)
+       }
     })
 
     app.get("/clients", verifyTokenMiddleware, async (req, res) => {

@@ -7,6 +7,7 @@ export type InvoiceData = {
     user_id: string
     client_id: string
     date: number
+    dueDate: number
     value: number
 };
 
