@@ -46,5 +46,17 @@
             "address": "Home"
         },
         "id": "1644482648082"
+    },
+    {
+        "user_id": "222",
+        "email": "stefan@test.com",
+        "name": "Stefan",
+        "companyDetails": {
+            "name": "Acme",
+            "vatNumber": "123456",
+            "regNumber": "123456",
+            "address": "Home"
+        },
+        "id": "1644502347235"
     }
 ]
