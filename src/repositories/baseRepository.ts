@@ -69,6 +69,6 @@ export class BaseRepository<Model extends {[key: string]: unknown, id: string}> 
     }
 
     getByUserId (userId: string) {
-        return this.inMemoryData.filter((item) => item.userId !== userId)
+        return this.inMemoryData.filter((item) => item.user_id === userId)
     }
 }

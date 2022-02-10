@@ -1,0 +1,50 @@
+[
+    {
+        "user_id": "111",
+        "email": "newUser@test.com",
+        "name": "John",
+        "companyDetails": {
+            "name": "company",
+            "vatNumber": "123",
+            "regNumber": "123",
+            "address": "Home"
+        },
+        "id": "1644482450322"
+    },
+    {
+        "user_id": "111",
+        "email": "newUser2@test.com",
+        "name": "John",
+        "companyDetails": {
+            "name": "Skynet 2",
+            "vatNumber": "1234",
+            "regNumber": "1234",
+            "address": "Home"
+        },
+        "id": "1644482524339"
+    },
+    {
+        "user_id": "111",
+        "email": "alice@test.com",
+        "name": "Alice",
+        "companyDetails": {
+            "name": "Wonderland",
+            "vatNumber": "12345",
+            "regNumber": "12345",
+            "address": "Home"
+        },
+        "id": "1644482579284"
+    },
+    {
+        "user_id": "222",
+        "email": "bob@test.com",
+        "name": "Bob Porter",
+        "companyDetails": {
+            "name": "Wonderland",
+            "vatNumber": "12345",
+            "regNumber": "12345",
+            "address": "Home"
+        },
+        "id": "1644482648082"
+    }
+]

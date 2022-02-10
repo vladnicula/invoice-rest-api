@@ -48,4 +48,15 @@ export const mainRoutes = (app: Express ) => {
             res.status(500).send(err.message)
         }
     })
+
+    app.post("/clients", verifyTokenMiddleware, async (req, res) => {
+        try {
+         const clientsRepo = app.get("clientsRepo") as ClientsRepository
+         const userId = (req as any).user.user_id as string;
+         const result = await clientsRepo.add({user_id: userId, ...req.body})
+         return res.json({success: true, client: result})
+        } catch (err) {
+            res.status(500).send(err.message)
+        }
+     })
 }

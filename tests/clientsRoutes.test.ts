@@ -9,7 +9,7 @@ const TEST_USER_PASS = `123456`;
 let invoiceRepo: InvoicesRepository;
 let clientsRepo: ClientsRepository
 
-const targetUserId = 'user1'
+const targetUserId = '1111111'
 let client1Model: ClientData
 let client2Model: ClientData
 
@@ -173,4 +173,36 @@ it('Gets a list of latest clients ordered by total billed ASC', async () => {
     expect(clientsResponse.status).toBe(200)
     expect(clientsResponse.body.clients[0].name).toEqual(client2Model.name)
     expect(clientsResponse.body.clients[1].name).toEqual(client1Model.name)
+})
+
+
+it('Creates a new client for logged in user' , async () => {
+
+    const requestAgent = supertest.agent(app, null)
+
+    const response = await requestAgent
+        .post('/login')
+        .set('Content-Type', 'application/json')
+        .send({ email: TEST_USER_EMAIL, password: TEST_USER_PASS })
+
+
+    const clientJSONDetails = {
+        email: 'newUser@test.com',
+        name: 'John',
+        companyDetails: {
+            name: "company",
+            vatNumber: "123",
+            regNumber: '123',
+            address: "Home"
+        }
+    }
+    const clientsResponse = await requestAgent.post('/clients')
+        .set("x-access-token", response.body.token)
+        .set('Content-Type', 'application/json')
+        .send(clientJSONDetails)
+
+    expect(clientsResponse.status).toBe(200)
+    expect(clientsResponse.body).toHaveProperty("success", true);
+    expect(clientsResponse.body).toHaveProperty("client");
+    expect(clientsResponse.body.client).toHaveProperty("id");
 })

@@ -1,10 +1,43 @@
 [
     {
-        "id": "1111111",
-        "email": "tarzan@jungle.com",
+        "id": "111",
+        "email": "fake_user1@officehourtesting.com",
         "password": "123456",
         "companyDetails": {
-            "name": "Acme Inc",
+            "name": "Skynet 01",
+            "address": "1st Bulevard Street",
+            "vatNumber": "1234",
+            "regNumber": "9876"
+        }
+    },
+    {
+        "id": "222",
+        "email": "fake_user2@officehourtesting.com",
+        "password": "123456",
+        "companyDetails": {
+            "name": "Skynet 02",
+            "address": "1st Bulevard Street",
+            "vatNumber": "1234",
+            "regNumber": "9876"
+        }
+    },
+    {
+        "id": "333",
+        "email": "fake_user3@officehourtesting.com",
+        "password": "123456",
+        "companyDetails": {
+            "name": "Skynet 03",
+            "address": "1st Bulevard Street",
+            "vatNumber": "1234",
+            "regNumber": "9876"
+        }
+    },
+    {
+        "id": "444",
+        "email": "fake_user4@officehourtesting.com",
+        "password": "123456",
+        "companyDetails": {
+            "name": "Skynet 04",
             "address": "1st Bulevard Street",
             "vatNumber": "1234",
             "regNumber": "9876"

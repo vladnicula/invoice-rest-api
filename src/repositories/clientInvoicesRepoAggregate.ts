@@ -142,7 +142,6 @@ export class ClientInvoicesRepoAggregate {
         const allClients = await this.clientsRepo.getByUserId(userId)
         const allInvoices = await this.invoicesRepo.getByUserId(userId)
 
-
         const allClientsWithTotalBilled = allClients.map((client) => {
             return {
                 ...client,
