@@ -66,6 +66,7 @@ export const mainRoutes = (app: Express ) => {
             const usersRepo = app.get("usersRepo") as UsersRepository
             const userId = (req as any).user.user_id as string;
             const foundUser = await usersRepo.getById(userId)
+            foundUser.companyDetails ??= null;
             return res.json(foundUser)
         } catch (err) {
             res.status(500).send(err.message)
