@@ -4,6 +4,7 @@ import { CompanyDetails } from './company';
 
 type UserData = {
     id: string
+    name: string
     email: string
     password: string
     companyDetails?: CompanyDetails

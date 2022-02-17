@@ -1,6 +1,7 @@
 [
     {
         "id": "1111111",
+        "name": "Tarzan",
         "email": "tarzan@jungle.com",
         "password": "123456",
         "companyDetails": {
