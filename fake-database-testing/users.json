@@ -1,6 +1,7 @@
 [
     {
         "id": "1111111",
+        "name": "Tarzan",
         "email": "tarzan@jungle.com",
         "password": "123456",
         "companyDetails": {
@@ -14,12 +15,12 @@
         "name": "John Doe",
         "email": "unique-testnewuser@test.com",
         "password": "123__123",
-        "id": "5a5d60c3-e429-4a82-9b3d-993fad4f443d"
+        "id": "360cba74-c8c5-489c-8bf1-d5b438555747"
     },
     {
         "name": "John Doe",
         "email": "doubleuser@test.com",
         "password": "123__123",
-        "id": "5d4ff3e2-1d14-4b44-a206-6c37bc56b3d9"
+        "id": "858fc480-7045-4060-b659-129b6fce3547"
     }
 ]

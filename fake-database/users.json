@@ -1,6 +1,7 @@
 [
     {
         "id": "111",
+        "name": "John Doe 1",
         "email": "fake_user1@officehourtesting.com",
         "password": "123456",
         "companyDetails": {
@@ -12,6 +13,7 @@
     },
     {
         "id": "222",
+        "name": "John Doe 2",
         "email": "fake_user2@officehourtesting.com",
         "password": "123456",
         "companyDetails": {
@@ -23,6 +25,7 @@
     },
     {
         "id": "333",
+        "name": "John Doe 3",
         "email": "fake_user3@officehourtesting.com",
         "password": "123456",
         "companyDetails": {
@@ -34,6 +37,7 @@
     },
     {
         "id": "444",
+        "name": "John Doe 4",
         "email": "fake_user4@officehourtesting.com",
         "password": "123456",
         "companyDetails": {
@@ -42,5 +46,11 @@
             "vatNumber": "1234",
             "regNumber": "9876"
         }
+    },
+    {
+        "name": "John Doe",
+        "email": "unique@email.com",
+        "password": "12345",
+        "id": "2384f209-a6e1-47c3-b757-4b495a6831ae"
     }
 ]

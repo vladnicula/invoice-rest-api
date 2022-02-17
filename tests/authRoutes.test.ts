@@ -1,11 +1,10 @@
 import { app } from '../src/app'
 import * as supertest from 'supertest'
 
-it('Can only access unprotected content when not authenticated', async () => {
+it('Can not access protected content when not authenticated', async () => {
     const requestAgent = supertest.agent(app, null)
-
-    expect((await requestAgent.get('/login')).status).toBe(200)
-    expect((await requestAgent.get('/dashboard')).status).toBe(403)
+    expect((await requestAgent.get('/clients')).status).toBe(403)
+    expect((await requestAgent.get('/invoices')).status).toBe(403)
 })
 
 it("Can access all content when authenticated", async () => {
@@ -23,6 +22,8 @@ it("Can access all content when authenticated", async () => {
   expect(response.status).toBe(200);
   expect(response.body).toHaveProperty('user_id', TEST_USER_ID);
   expect(response.body).toHaveProperty('token');
+  expect(response.body).toHaveProperty('email');
+  expect(response.body).toHaveProperty('name');
 
   const dashboardResponse = await requestAgent.get('/dashboard').set("x-access-token", response.body.token)
 
