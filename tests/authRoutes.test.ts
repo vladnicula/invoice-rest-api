@@ -1,5 +1,9 @@
-import { app } from '../src/app'
+import { app, setup } from '../src/app'
 import * as supertest from 'supertest'
+
+beforeAll(async () => {
+  await setup()
+})
 
 it('Can not access protected content when not authenticated', async () => {
     const requestAgent = supertest.agent(app, null)
@@ -25,9 +29,8 @@ it("Can access all content when authenticated", async () => {
   expect(response.body).toHaveProperty('email');
   expect(response.body).toHaveProperty('name');
 
-  const dashboardResponse = await requestAgent.get('/dashboard').set("x-access-token", response.body.token)
-
-  expect(dashboardResponse.status).toBe(200)
+  const invoicesResponse = await requestAgent.get('/invoices').set("x-access-token", response.body.token)
+  expect(invoicesResponse.status).toBe(200)
 })
 
 
@@ -55,9 +58,9 @@ it("Can resigtered new user and log in with them", async () => {
   expect(loginResponse.status).toBe(200);
   expect(loginResponse.body.token).toBeTruthy();
     
-  const dashboardResponse = await requestAgent.get('/dashboard').set("x-access-token", loginResponse.body.token)
+  const invoicesResponse = await requestAgent.get('/invoices').set("x-access-token", loginResponse.body.token)
 
-  expect(dashboardResponse.status).toBe(200)
+  expect(invoicesResponse.status).toBe(200)
 })
 
 it("Cannot register twice with the same email", async () => {

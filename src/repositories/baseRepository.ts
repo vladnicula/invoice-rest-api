@@ -69,6 +69,18 @@ export class BaseRepository<Model extends {[key: string]: unknown, id: string}> 
         return newRecord;
     }
 
+    async update (params: Model) {
+        const existingRecord = await this.getById(params.id)
+        if ( !existingRecord ) {
+            throw new Error(`Cannot update. Record not found ${params.id}`)
+        }
+        Object.assign(existingRecord, params);
+        if ( !this.disableAutoWriteToDisk ) {
+            await this.serializeAndSaveToDisk();
+        }
+        return existingRecord;
+    }
+
     getByUserId (userId: string) {
         return this.inMemoryData.filter((item) => item.user_id === userId)
     }

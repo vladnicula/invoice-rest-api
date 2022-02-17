@@ -2,12 +2,10 @@ import { Express } from 'express'
 import { ClientInvoicesRepoAggregate } from '../repositories/clientInvoicesRepoAggregate'
 import { verifyTokenMiddleware } from "../middleware/verifyTokenMiddleware"
 import { ClientsRepository } from '../repositories/clientsRepository'
-import { InvoiceData, InvoicesRepository } from '../repositories/invoicesRepository'
+import { InvoiceData } from '../repositories/invoicesRepository'
+import { UsersRepository } from '../repositories/usersRepository'
 
 export const mainRoutes = (app: Express ) => {
-    app.get("/dashboard", verifyTokenMiddleware, (req, res) => {
-        res.json({message: 'dashboard pass!'})
-    })
 
     app.get("/invoices", verifyTokenMiddleware, async (req, res) => {
         const { filter, sort } = req.body
@@ -58,6 +56,28 @@ export const mainRoutes = (app: Express ) => {
          const userId = (req as any).user.user_id as string;
          const result = await clientsRepo.add({user_id: userId, ...req.body})
          return res.json({success: true, client: result})
+        } catch (err) {
+            res.status(500).send(err.message)
+        }
+     })
+
+     app.get("/me", verifyTokenMiddleware, async (req, res) => {
+        try {
+            const usersRepo = app.get("usersRepo") as UsersRepository
+            const userId = (req as any).user.user_id as string;
+            const foundUser = await usersRepo.getById(userId)
+            return res.json(foundUser)
+        } catch (err) {
+            res.status(500).send(err.message)
+        }
+     })
+
+     app.put("/me/company", verifyTokenMiddleware, async (req,res) => {
+        try {
+            const usersRepo = app.get("usersRepo") as UsersRepository
+            const userId = (req as any).user.user_id as string;
+            const updatedUser = await usersRepo.updateCompanyDetails(userId, req.body)
+            return res.status(200).json({success: true, user: updatedUser})
         } catch (err) {
             res.status(500).send(err.message)
         }
