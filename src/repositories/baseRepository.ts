@@ -1,4 +1,5 @@
 import fs from 'fs'
+import { v4 as uuidv4 } from 'uuid'
 
 export class BaseRepository<Model extends {[key: string]: unknown, id: string}> {
 
@@ -54,7 +55,7 @@ export class BaseRepository<Model extends {[key: string]: unknown, id: string}> 
     }
 
     async add(params: Omit<Model, 'id'>) {
-        const newId = new Date().getTime().toString();
+        const newId = uuidv4();
         const newRecord = {
             ...params as Model,
             id: newId

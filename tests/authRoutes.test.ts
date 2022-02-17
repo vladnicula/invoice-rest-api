@@ -38,6 +38,7 @@ it("Can resigtered new user and log in with them", async () => {
     .post('/register')
     .set('Content-Type', 'application/json')
     .send({ 
+      name: "John Doe",
       email: NEW_TEST_USER_EMAIL, 
       password: NEW_PASS_TEST,
       confirmPassword: NEW_PASS_TEST,
@@ -68,6 +69,7 @@ it("Cannot register twice with the same email", async () => {
     .post('/register')
     .set('Content-Type', 'application/json')
     .send({ 
+      name: "John Doe",
       email: NEW_TEST_USER_EMAIL, 
       password: NEW_PASS_TEST,
       confirmPassword: NEW_PASS_TEST,
@@ -79,6 +81,7 @@ it("Cannot register twice with the same email", async () => {
     .post('/register')
     .set('Content-Type', 'application/json')
     .send({ 
+      name: "Some other John Doe",
       email: NEW_TEST_USER_EMAIL, 
       password: NEW_PASS_TEST,
       confirmPassword: NEW_PASS_TEST,

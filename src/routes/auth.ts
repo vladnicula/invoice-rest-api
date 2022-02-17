@@ -50,28 +50,29 @@ export const authRoutes = (app: Express) => {
     app.post("/register", async (req, res) => {
         try {
             // Get user input
-            const { email, password, confirmPassword } = req.body;
+            const { name, email, password, confirmPassword } = req.body;
 
             // Validate user input
-            if (!(email && password && confirmPassword)) {
-            res.status(400).send("All input is required");
+            if (!(name && email && password && confirmPassword)) {
+                res.status(400).send("All inputs are required");
             }
 
             if ( password !== confirmPassword ) {
-            return res.status(500).send("Password and Confirm Password do not match");
+                return res.status(500).send("Password and Confirm Password do not match");
             }
 
             try {
-            const user = await userRepo.add({
-                email: email,
-                password: password
-            })
-            
-            return res.status(200).json({
-                "user_id": user.id,
-            })
+                const user = await userRepo.add({
+                    name,
+                    email,
+                    password
+                })
+                
+                return res.status(200).json({
+                    "user_id": user.id,
+                })
             } catch (err) {
-            return res.status(500).send("Email already used by another account");
+                return res.status(500).send("Email already used by another account");
             }
         } catch (err) {
             console.log(err);

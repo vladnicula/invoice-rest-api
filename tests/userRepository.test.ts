@@ -17,6 +17,7 @@ it("Loads repository from JSON file", async () => {
 it("Adds user to repository", async () => {
 
     const result = await repo.add({
+        name: "John Doe",
         email: "userRepositoryTest.user@test.com",
         password: "123_123",
     });
@@ -25,11 +26,38 @@ it("Adds user to repository", async () => {
 
     const byIdResult = await repo.getById(result.id);
     expect(byIdResult).toEqual(result)
+    expect(result).toHaveProperty("id")
+    expect(result).toHaveProperty("name")
+    expect(result).toHaveProperty("email")
+});
+
+it("Adds user to repository with the same name as another existing user, but different email addresse", async () => {
+
+    const result = await repo.add({
+        name: "John Doe",
+        email: "uniqueEmail1.user@test.com",
+        password: "123_123",
+    });
+
+    const result2 = await repo.add({
+        name: "John Doe",
+        email: "uniqueEmail2.user@test.com",
+        password: "123_123",
+    });
+
+    expect(result).toHaveProperty('id');
+    expect(result2).toHaveProperty('id');
+
+    const byIdResult = await repo.getById(result.id);
+    expect(byIdResult).toEqual(result)
+    const byIdResult2 = await repo.getById(result2.id);
+    expect(byIdResult2).toEqual(result2)
 });
 
 it("Does not add user to repository if email already exists", async () => {
 
     const result = await repo.add({
+        name: "John Doe",
         email: "unique_test.user@test.com",
         password: "123_123",
     });
@@ -41,6 +69,7 @@ it("Does not add user to repository if email already exists", async () => {
     try {
 
         await repo.add({
+            name: "John Doe",
             email: "unique_test.user@test.com",
             password: "123_123",
         });
