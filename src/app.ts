@@ -7,6 +7,7 @@ import { mainRoutes } from "./routes/main"
 import { ClientInvoicesRepoAggregate } from './repositories/clientInvoicesRepoAggregate'
 import { ClientsRepository } from './repositories/clientsRepository'
 import { InvoicesRepository } from './repositories/invoicesRepository'
+import { UsersRepository } from "./repositories/usersRepository"
 
 
 // export needed for unit/integration testing
@@ -27,4 +28,6 @@ export const setup = async () => {
     app.set("invoiceClientAggregate", invoiceClientAggregate);
     const clientsRepo = await ClientsRepository.getInstance();
     app.set("clientsRepo", clientsRepo);
+    const usersRepo = await UsersRepository.getInstance();
+    app.set("usersRepo", usersRepo);
 }

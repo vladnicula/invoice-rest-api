@@ -38,4 +38,19 @@ export class UsersRepository extends BaseRepository<UserData> {
         }
         return super.add(user);
     }
+
+    async updateCompanyDetails(id: string, companyDetails: CompanyDetails & {
+        iban: string
+        swift: string
+    }) {
+        const existingUser =  await this.getById(id);
+        if ( !existingUser ) {
+            throw new Error('User company details update failed because user is not found')
+        }
+        this.update({
+            ...existingUser,
+            companyDetails
+        })
+        return existingUser;
+    }
 }

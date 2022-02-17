@@ -80,3 +80,26 @@ it("Does not add user to repository if email already exists", async () => {
 
     expect(caughtError).toBeTruthy();
 });
+
+it("Can update user company details", async () => {
+    const result = await repo.add({
+        name: "New User",
+        email: "user-without-company@test.com",
+        password: "123_123",
+    });
+
+    const companyDetails = {
+        name: "New Company",
+        address: "21st Brook Street",
+        vatNumber: "uniqueJustForThisCompany1234",
+        regNumber: "yetanotheruniquenumber",
+        iban: "12345",
+        swift: "12345",
+    }
+
+    await repo.updateCompanyDetails(result.id, companyDetails)
+
+    const userWithUpdatedDetails = await repo.getById(result.id)
+
+    expect(userWithUpdatedDetails.companyDetails).toEqual(companyDetails)
+});
