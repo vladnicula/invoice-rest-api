@@ -206,3 +206,54 @@ it('Creates a new client for logged in user' , async () => {
     expect(clientsResponse.body).toHaveProperty("client");
     expect(clientsResponse.body.client).toHaveProperty("id");
 })
+
+it("Updates a client details", async () => {
+    // login and cretae a new client
+    const requestAgent = supertest.agent(app, null)
+
+    const response = await requestAgent
+        .post('/login')
+        .set('Content-Type', 'application/json')
+        .send({ email: TEST_USER_EMAIL, password: TEST_USER_PASS })
+
+
+    const clientJSONDetails = {
+        email: 'testupdateclient',
+        name: 'Update Me Client',
+        companyDetails: {
+            name: "company updatable details",
+            vatNumber: "updatablenewcompany123",
+            regNumber: 'updatablenewcompany123',
+            address: "updatable Home"
+        }
+    }
+
+    const clientsResponse = await requestAgent.post('/clients')
+        .set("x-access-token", response.body.token)
+        .set('Content-Type', 'application/json')
+        .send(clientJSONDetails)
+
+    expect(clientsResponse.body.client).toHaveProperty("id");
+
+    const updatedClientResponse = {
+        id: clientsResponse.body.client.id,
+        email: 'updatedEmail@afterRepoUpdate.com',
+        name: 'Update Me Client',
+        companyDetails: {
+            name: "company updatable details",
+            vatNumber: "updatablenewcompany123",
+            regNumber: 'updatablenewcompany123',
+            address: "updatable Home"
+        }
+    }
+
+    const clientsUpdatedResponse = await requestAgent.put('/clients')
+        .set("x-access-token", response.body.token)
+        .set('Content-Type', 'application/json')
+        .send(updatedClientResponse)
+
+
+    expect(clientsUpdatedResponse.body.client).toHaveProperty("id", clientsResponse.body.client.id);
+    expect(clientsUpdatedResponse.body.client).toHaveProperty("email", updatedClientResponse.email);
+    expect(clientsUpdatedResponse.body.client).toHaveProperty("companyDetails", updatedClientResponse.companyDetails);
+});

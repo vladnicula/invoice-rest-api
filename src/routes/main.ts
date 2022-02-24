@@ -61,6 +61,27 @@ export const mainRoutes = (app: Express ) => {
         }
      })
 
+     app.put("/clients", verifyTokenMiddleware, async (req, res) => {
+        try {
+            const clientsRepo = app.get("clientsRepo") as ClientsRepository
+            const userId = (req as any).user.user_id as string;
+            const userOwningClient = await clientsRepo.getById(req.body.id)
+            
+            if ( !userOwningClient ) {
+                res.status(404).send("Client not found. Cannot update.")
+            }
+            
+            if ( userOwningClient.user_id !== userId ) {
+                res.status(404).send("Client not found. Cannot update.")
+            }
+            
+            const result = await clientsRepo.update({user_id: userId, ...req.body})
+            return res.json({success: true, client: result})
+           } catch (err) {
+               res.status(500).send(err.message)
+           }
+     })
+
      app.get("/me", verifyTokenMiddleware, async (req, res) => {
         try {
             const usersRepo = app.get("usersRepo") as UsersRepository
