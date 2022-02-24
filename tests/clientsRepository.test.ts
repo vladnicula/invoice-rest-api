@@ -1,4 +1,3 @@
-import path from 'path'
 import { ClientsRepository } from '../src/repositories/clientsRepository'
 
 
