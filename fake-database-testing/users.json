@@ -5,10 +5,12 @@
         "email": "tarzan@jungle.com",
         "password": "123456",
         "companyDetails": {
-            "name": "Acme Inc",
-            "address": "1st Bulevard Street",
-            "vatNumber": "1234",
-            "regNumber": "9876"
+            "name": "New Company",
+            "address": "21st Brook Street",
+            "vatNumber": "uniqueJustForThisCompany1234",
+            "regNumber": "yetanotheruniquenumber",
+            "iban": "12345",
+            "swift": "12345"
         }
     }
 ]
