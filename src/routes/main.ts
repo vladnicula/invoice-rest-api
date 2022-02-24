@@ -2,7 +2,7 @@ import { Express } from 'express'
 import { ClientInvoicesRepoAggregate } from '../repositories/clientInvoicesRepoAggregate'
 import { verifyTokenMiddleware } from "../middleware/verifyTokenMiddleware"
 import { ClientsRepository } from '../repositories/clientsRepository'
-import { InvoiceData } from '../repositories/invoicesRepository'
+import { InvoiceData, InvoicesRepository } from '../repositories/invoicesRepository'
 import { UsersRepository } from '../repositories/usersRepository'
 
 export const mainRoutes = (app: Express ) => {
@@ -31,6 +31,27 @@ export const mainRoutes = (app: Express ) => {
            res.status(500).send(err.message)
        }
     })
+
+    app.put("/invoices", verifyTokenMiddleware, async (req, res) => {
+        try {
+            const invoicesRepo = app.get("invoicesRepo") as InvoicesRepository
+            const userId = (req as any).user.user_id as string;
+            const invoiceData = await invoicesRepo.getById(req.body.id)
+            
+            if ( !invoiceData ) {
+                res.status(404).send("Client not found. Cannot update.")
+            }
+            
+            if ( invoiceData.user_id !== userId ) {
+                res.status(404).send("Client not found. Cannot update.")
+            }
+            
+            const result = await invoicesRepo.update({user_id: userId, ...req.body})
+            return res.json({success: true, invoice: result})
+           } catch (err) {
+               res.status(500).send(err.message)
+           }
+     })
 
     app.get("/clients", verifyTokenMiddleware, async (req, res) => {
         const invoiceAggregate = app.get("invoiceClientAggregate") as ClientInvoicesRepoAggregate

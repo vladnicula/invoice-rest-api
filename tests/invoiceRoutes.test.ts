@@ -185,3 +185,52 @@ it("Adds an invoice", async () => {
     expect(invoicesResponse.body).toHaveProperty("invoice");
     expect(invoicesResponse.body.invoice).toHaveProperty("id");
 });
+
+it("Updates an invoice", async () => {
+
+    // login and create an invoice
+    const creationDate = new Date().getTime();
+
+    const requestAgent = supertest.agent(app, null)
+
+    const response = await requestAgent
+        .post('/login')
+        .set('Content-Type', 'application/json')
+        .send({ email: TEST_USER_EMAIL, password: TEST_USER_PASS })
+
+    const invoicesResponse = await requestAgent
+        .post('/invoices')
+        .set("x-access-token", response.body.token)
+        .set('Content-Type', 'application/json')
+        .send({
+            invoice_number: "123456",
+            user_id: "123",
+            client_id: client1Model.id,
+            date: creationDate,
+            value: 1234
+        })
+
+    const TARGET_INVOICE_ID = invoicesResponse.body.invoice.id;
+    const NEW_DATE = new Date().getTime() - 60 * 60 * 1000
+    const NEW_VALUE = 5555;
+    const invoicesUpdateResponse = await requestAgent
+        .put('/invoices')
+        .set("x-access-token", response.body.token)
+        .set('Content-Type', 'application/json')
+        .send({
+            id: TARGET_INVOICE_ID,
+            invoice_number: "123456",
+            user_id: "123",
+            client_id: client1Model.id,
+            date: NEW_DATE,
+            value: NEW_VALUE
+        })
+
+    expect(invoicesUpdateResponse.status).toBe(200)
+    expect(invoicesUpdateResponse.body).toHaveProperty("success", true);
+    expect(invoicesUpdateResponse.body).toHaveProperty("invoice");
+    expect(invoicesUpdateResponse.body.invoice).toHaveProperty("id", TARGET_INVOICE_ID);
+    expect(invoicesUpdateResponse.body.invoice).toHaveProperty("value", NEW_VALUE);
+    expect(invoicesUpdateResponse.body.invoice).toHaveProperty("date", NEW_DATE);
+    
+})
