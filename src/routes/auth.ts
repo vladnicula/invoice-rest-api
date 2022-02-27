@@ -16,7 +16,7 @@ export const authRoutes = (app: Express) => {
         
             // Validate user input
             if (!(email && password)) {
-                res.status(400).send("All input is required");
+                return res.status(400).send("All input is required");
             }
 
             const user = await userRepo.getByEmail(email);
