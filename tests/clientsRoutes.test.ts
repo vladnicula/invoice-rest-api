@@ -2,12 +2,14 @@ import { app, setup } from '../src/app'
 import * as supertest from 'supertest'
 import { ClientsRepository, ClientData } from '../src/repositories/clientsRepository';
 import { InvoicesRepository } from '../src/repositories/invoicesRepository';
+import { UsersRepository } from '../src/repositories/usersRepository';
 
 const TEST_USER_EMAIL = `tarzan@jungle.com`;
 const TEST_USER_PASS = `123456`;
 
 let invoiceRepo: InvoicesRepository;
-let clientsRepo: ClientsRepository
+let clientsRepo: ClientsRepository;
+let usersRepo: UsersRepository;
 
 const targetUserId = '1111111'
 let client1Model: ClientData
@@ -20,6 +22,8 @@ beforeAll(async () => {
     invoiceRepo.disableAutoWriteToDisk = true;
     clientsRepo = await ClientsRepository.getInstance();
     clientsRepo.disableAutoWriteToDisk = true;
+    usersRepo = await UsersRepository.getInstance();
+    usersRepo.disableAutoWriteToDisk = true;
 
     const client1 = await clientsRepo.add({
         name: "Client 1",

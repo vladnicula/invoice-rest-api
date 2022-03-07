@@ -57,6 +57,12 @@ it("Can resigtered new user and log in with them", async () => {
 
   expect(loginResponse.status).toBe(200);
   expect(loginResponse.body.token).toBeTruthy();
+
+  const meResponse = await requestAgent
+    .get("/me")
+    .set("x-access-token", loginResponse.body.token)
+
+  expect(meResponse.status).toBe(200);
     
   const invoicesResponse = await requestAgent.get('/invoices').set("x-access-token", loginResponse.body.token)
 
