@@ -1,13 +1,9 @@
 import { Express } from 'express'
-import path from 'path'
 
 import jwt from 'jsonwebtoken'
-import { UsersRepository } from "../repositories/usersRepository"
+import { UsersRepository } from '../repositories/usersRepository';
 
 export const authRoutes = (app: Express) => {
-
-    const userRepo = new UsersRepository()
-    userRepo.init(path.resolve(__dirname, `../../${process.env.PATH_TO_JSON_DIR}`))
 
     app.post("/login", async (req, res) => {
         try {
@@ -19,7 +15,8 @@ export const authRoutes = (app: Express) => {
                 return res.status(400).send("All input is required");
             }
 
-            const user = await userRepo.getByEmail(email);
+            const usersRepo = app.get("usersRepo") as UsersRepository
+            const user = await usersRepo.getByEmail(email);
             if ( user && user.password === password ) {
                 const token = jwt.sign(
                     { user_id: user.id, email },
@@ -60,7 +57,8 @@ export const authRoutes = (app: Express) => {
             }
 
             try {
-                const user = await userRepo.add({
+                const usersRepo = app.get("usersRepo") as UsersRepository
+                const user = await usersRepo.add({
                     name,
                     email,
                     password

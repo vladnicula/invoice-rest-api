@@ -3,10 +3,12 @@ import * as supertest from 'supertest'
 
 import { ClientsRepository, ClientData } from '../src/repositories/clientsRepository'
 import { InvoicesRepository } from '../src/repositories/invoicesRepository'
+import { UsersRepository } from '../src/repositories/usersRepository';
 
 // Setup for invoices used for api testing
 let invoiceRepo: InvoicesRepository;
 let clientsRepo: ClientsRepository
+let usersRepo: UsersRepository
 
 // this is hardcoded in the test fixtures, it's a user
 // that exists by default
@@ -23,6 +25,8 @@ beforeAll(async () => {
     invoiceRepo.disableAutoWriteToDisk = true;
     clientsRepo = await ClientsRepository.getInstance();
     clientsRepo.disableAutoWriteToDisk = true;
+    usersRepo = await UsersRepository.getInstance();
+    usersRepo.disableAutoWriteToDisk = true;
 
     const client1 = await clientsRepo.add({
         name: "Client 1",
