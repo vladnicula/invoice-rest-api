@@ -21,7 +21,7 @@ it("Adds invoice to repository", async () => {
     expect(repo.getById(newInvoice.id)).toBeTruthy();
 });
 
-it("Add invoice with permisive meta field that can be used for project code, client code, etc", async () => {
+it("Add invoice with permisive meta field that can be used for invoice items", async () => {
     const newInvoice = await repo.add({
         invoice_number: "newInvoiceNumberWithCustomMetaContent",
         user_id: "123",
