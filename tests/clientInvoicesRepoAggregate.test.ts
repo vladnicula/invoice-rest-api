@@ -54,6 +54,7 @@ beforeAll(async () => {
         invoice_number: "FirstInvoiceByTime",
         user_id: targetUserId,
         client_id: client1.id,
+        projectCode: "test",
         date: 1000,
         dueDate: 12000,
         value: 1000
@@ -63,6 +64,7 @@ beforeAll(async () => {
         invoice_number: "SecondInvoiceByTime",
         user_id: targetUserId,
         client_id: client1.id,
+        projectCode: "test",
         date: 5000,
         dueDate: 12000,
         value: 1000
@@ -72,6 +74,7 @@ beforeAll(async () => {
         invoice_number: "ThirdInvoiceByTime",
         user_id: targetUserId,
         client_id: client2.id,
+        projectCode: "test",
         date: 7500,
         // very large due date
         dueDate: 200000,
@@ -82,6 +85,7 @@ beforeAll(async () => {
         invoice_number: "LatestInvoiceByTime",
         user_id: targetUserId,
         client_id: client1.id,
+        projectCode: "test",
         date: 10000,
         dueDate: 12000,
         value: 1000

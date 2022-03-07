@@ -63,15 +63,20 @@ beforeAll(async () => {
         invoice_number: "FirstInvoiceByTime",
         user_id: TEST_USER_ID,
         client_id: client1.id,
+        projectCode: "#Toptal2022EnterpriseClient",
         date: 1000,
         dueDate: 12000,
-        value: 1000
+        value: 1000,
+        meta: {
+            "projectCodeKeyWeAreFreeToChooseOurselves": "#Toptal2022EnterpriseClient"
+        }
     })
 
     const secondInvoice = await invoiceRepo.add({
         invoice_number: "SecondInvoiceByTime",
         user_id: TEST_USER_ID,
         client_id: client1.id,
+        projectCode: "#Toptal2022EnterpriseClient",
         date: 5000,
         dueDate: 12000,
         value: 1000
@@ -81,6 +86,7 @@ beforeAll(async () => {
         invoice_number: "ThirdInvoiceByTime",
         user_id: TEST_USER_ID,
         client_id: client2.id,
+        projectCode: "#Toptal2022EnterpriseClient",
         date: 7500,
         dueDate: 12000,
         value: 2000
@@ -90,6 +96,7 @@ beforeAll(async () => {
         invoice_number: "LatestInvoiceByTime",
         user_id: TEST_USER_ID,
         client_id: client1.id,
+        projectCode: "#Toptal2022EnterpriseClient",
         date: 10000,
         dueDate: 12000,
         value: 1500

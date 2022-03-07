@@ -198,6 +198,8 @@ export class ClientInvoicesRepoAggregate {
             date,
             dueDate,
             value,
+            projectCode = 'default',
+            meta = {}
          } = params.invoiceData
 
          if ( 
@@ -227,6 +229,8 @@ export class ClientInvoicesRepoAggregate {
             client_id,
             date,
             dueDate: validDueDate,
+            projectCode,
+            meta,
             value,
          })
 
