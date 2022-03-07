@@ -12,5 +12,11 @@
             "iban": "12345",
             "swift": "12345"
         }
+    },
+    {
+        "name": "John Doe",
+        "email": "unique-testnewuser@test.com",
+        "password": "123__123",
+        "id": "8d6e8236-8c51-4841-a3dc-8a81c06a9371"
     }
 ]

@@ -9,6 +9,8 @@ export type InvoiceData = {
     date: number
     dueDate: number
     value: number
+    projectCode: string
+    meta?: Record<string, any>
 };
 
 export class InvoicesRepository extends BaseRepository<InvoiceData> {
