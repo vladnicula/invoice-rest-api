@@ -21,6 +21,25 @@ export const mainRoutes = (app: Express ) => {
         }
     })
 
+
+    app.get("/invoices/:id", verifyTokenMiddleware, async (req, res) => {
+        const { id } = req.params;
+
+        try {
+            const invoicesRepo = app.get("invoicesRepo") as InvoicesRepository
+            const userId = (req as any).user.user_id;
+            const result = await invoicesRepo.getById(id)
+
+            if ( result && result.user_id === userId ) {
+                return res.json({success: true, invoice: result})
+            } else {
+                return res.status(404).send("Invoice not found")
+            }
+        } catch (err) {
+            res.status(500).send(err.message)
+        }
+    })
+
     app.post("/invoices", verifyTokenMiddleware, async (req, res) => {
        try {
         const invoiceAggregate = app.get("invoiceClientAggregate") as ClientInvoicesRepoAggregate
@@ -67,6 +86,22 @@ export const mainRoutes = (app: Express ) => {
             return 
         } catch (err) {
             console.log(err.message);
+            res.status(500).send(err.message)
+        }
+    })
+
+    app.get("/clients/:id", verifyTokenMiddleware, async (req, res) => {
+        const { id } = req.params;
+        try {
+            const clientsRepo = app.get("clientsRepo") as ClientsRepository
+            const userId = (req as any).user.user_id;
+            const result = await clientsRepo.getById(id)
+            if ( userId === result?.user_id ) {
+                return res.json({success: true, client: result})
+            } else {
+                return res.status(404).send("Client not found")
+            }
+        } catch (err) {
             res.status(500).send(err.message)
         }
     })
