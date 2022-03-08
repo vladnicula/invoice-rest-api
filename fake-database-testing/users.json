@@ -10,18 +10,5 @@
             "vatNumber": "1234",
             "regNumber": "9876"
         }
-    },
-    {
-        "name": "John Doe",
-        "email": "unique-testnewuser@test.com",
-        "password": "123__123",
-        "id": "2fba077c-9f88-4b31-ac77-9602640612df",
-        "companyDetails": null
-    },
-    {
-        "name": "John Doe",
-        "email": "doubleuser@test.com",
-        "password": "123__123",
-        "id": "232bd23a-2199-4370-ae92-c0ac8dc1e549"
     }
 ]

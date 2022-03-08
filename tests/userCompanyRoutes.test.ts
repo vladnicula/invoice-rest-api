@@ -1,7 +1,10 @@
 import { app, setup } from '../src/app'
 import * as supertest from 'supertest'
+import { UsersRepository } from '../src/repositories/usersRepository';
 
 beforeAll(async () => {
+    const repo = await UsersRepository.getInstance()
+    repo.disableAutoWriteToDisk = true;
     await setup();
 })
 
