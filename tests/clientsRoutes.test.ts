@@ -265,3 +265,39 @@ it("Updates a client details", async () => {
     expect(clientsUpdatedResponse.body.client).toHaveProperty("email", updatedClientResponse.email);
     expect(clientsUpdatedResponse.body.client).toHaveProperty("companyDetails", updatedClientResponse.companyDetails);
 });
+
+it("gets a single client by id", async () => {
+    const requestAgent = supertest.agent(app, null)
+
+    const response = await requestAgent
+        .post('/login')
+        .set('Content-Type', 'application/json')
+        .send({ email: TEST_USER_EMAIL, password: TEST_USER_PASS })
+
+
+    const clientJSONDetails = {
+        email: 'client-email@test.com',
+        name: 'A client by id example',
+        companyDetails: {
+            name: "My particular company details",
+            vatNumber: "helloworld",
+            regNumber: 'helloworld',
+            address: "Home"
+        }
+    }
+
+    const clientsResponse = await requestAgent.post('/clients')
+        .set("x-access-token", response.body.token)
+        .set('Content-Type', 'application/json')
+        .send(clientJSONDetails)
+
+    expect(clientsResponse.status).toEqual(200);
+    expect(clientsResponse.body.client).toHaveProperty("id");
+
+    const clientByIdResponse = await requestAgent.get(`/clients/${clientsResponse.body.client.id}`)
+        .set("x-access-token", response.body.token)
+        .set('Content-Type', 'application/json')
+
+    expect(clientByIdResponse.status).toEqual(200);
+    expect(clientByIdResponse.body.client).toEqual(clientsResponse.body.client);
+})  

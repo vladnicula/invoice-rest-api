@@ -188,13 +188,32 @@ it("Adds an invoice", async () => {
             user_id: "123",
             client_id: client1Model.id,
             date: creationDate,
-            value: 1234
+            value: 1234,
+            meta: {
+                "test": "meta here"
+            }
         })
 
     expect(invoicesResponse.status).toBe(200)
     expect(invoicesResponse.body).toHaveProperty("success", true);
     expect(invoicesResponse.body).toHaveProperty("invoice");
     expect(invoicesResponse.body.invoice).toHaveProperty("id");
+    expect(invoicesResponse.body.invoice).toHaveProperty("meta", {
+        "test": "meta here"
+    });
+
+    const invoiceFetchResponse = await requestAgent
+        .get(`/invoices/${invoicesResponse.body.invoice.id}`)
+        .set("x-access-token", response.body.token)
+        .set('Content-Type', 'application/json')
+
+    expect(invoiceFetchResponse.status).toBe(200)
+    expect(invoiceFetchResponse.body).toHaveProperty("success", true);
+    expect(invoiceFetchResponse.body).toHaveProperty("invoice");
+    expect(invoiceFetchResponse.body.invoice).toHaveProperty("id");
+    expect(invoiceFetchResponse.body.invoice).toHaveProperty("meta", {
+        "test": "meta here"
+    });
 });
 
 it("Updates an invoice", async () => {
