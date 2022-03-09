@@ -39,7 +39,7 @@ export type ClientListingFilterByArgs = {
 
 export class ClientInvoicesRepoAggregate {
     private static _instance: ClientInvoicesRepoAggregate;
-    
+
     static async getInstance () {
         if (!ClientInvoicesRepoAggregate._instance) {
             ClientInvoicesRepoAggregate._instance = new ClientInvoicesRepoAggregate();
@@ -54,7 +54,7 @@ export class ClientInvoicesRepoAggregate {
 
     async getInvoices(params: {userId:string, filter?: InvoiceListingFilterByArgs, sort?: InvoiceListingSortingByArgs, offset?: number, limit?: number}) {
         const { filter = {}, sort = {}, userId, offset = 0, limit = 20 } = params;
-        
+
         const allInvoices = this.invoicesRepo.getByUserId(userId)
         const allResults: InvoiceWithClientDetails[] = [];
         for ( let i = 0; i < allInvoices.length; i += 1 ) {
@@ -87,7 +87,7 @@ export class ClientInvoicesRepoAggregate {
                     return item.invoice.dueDate >= startDate && item.invoice.dueDate < endDate;
                 })
             }
-           
+
         }
 
         let sortedResults = filteredResults;
@@ -97,7 +97,7 @@ export class ClientInvoicesRepoAggregate {
                 sortedResults = sortedResults.sort((a,b) => {
                     if ( a.invoice.date > b.invoice.date ) {
                         return coef;
-                    } 
+                    }
                     return -coef;
                 });
             }
@@ -107,7 +107,7 @@ export class ClientInvoicesRepoAggregate {
                 sortedResults = sortedResults.sort((a,b) => {
                     if ( a.invoice.dueDate > b.invoice.dueDate ) {
                         return coef;
-                    } 
+                    }
                     return -coef;
                 });
             }
@@ -117,7 +117,7 @@ export class ClientInvoicesRepoAggregate {
                 sortedResults = sortedResults.sort((a, b) => {
                     if ( a.client.companyDetails.name > b.client.companyDetails.name ) {
                         return coef;
-                    } 
+                    }
                     return -coef;
                 })
             }
@@ -127,13 +127,12 @@ export class ClientInvoicesRepoAggregate {
                 sortedResults = sortedResults.sort((a, b) => {
                     if ( a.invoice.value > b.invoice.value ) {
                         return coef;
-                    } 
+                    }
                     return -coef;
                 })
             }
         }
-
-        return sortedResults;
+        return sortedResults.slice(offset, limit);
     }
 
 
@@ -161,7 +160,7 @@ export class ClientInvoicesRepoAggregate {
                 sortedResults = sortedResults.sort((a,b) => {
                     if ( a.name > b.name ) {
                         return coef;
-                    } 
+                    }
                     return -coef;
                 });
             }
@@ -171,7 +170,7 @@ export class ClientInvoicesRepoAggregate {
                 sortedResults = sortedResults.sort((a, b) => {
                     if ( a.companyDetails.name > b.companyDetails.name ) {
                         return coef;
-                    } 
+                    }
                     return -coef;
                 })
             }
@@ -181,18 +180,17 @@ export class ClientInvoicesRepoAggregate {
                 sortedResults = sortedResults.sort((a, b) => {
                     if ( a.totalBilled > b.totalBilled ) {
                         return coef;
-                    } 
+                    }
                     return -coef;
                 })
             }
         }
-
-        return sortedResults;
+        return sortedResults.slice(offset, limit);
     }
 
 
     async addInvoice (params: { user_id: string, invoiceData: Partial<InvoiceData> } ) {
-        const { 
+        const {
             invoice_number,
             client_id,
             date,
@@ -202,7 +200,7 @@ export class ClientInvoicesRepoAggregate {
             meta = {}
          } = params.invoiceData
 
-         if ( 
+         if (
             !(invoice_number && client_id && date && value)
          ) {
             throw new Error("Invalid invoice payload. Need invoice_number && client_id && date && value")
