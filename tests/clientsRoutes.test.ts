@@ -127,13 +127,16 @@ it('Gets a list of latest clients ordered by name ASC', async () => {
         .set('Content-Type', 'application/json')
         .send({ email: TEST_USER_EMAIL, password: TEST_USER_PASS })
 
-    const clientsResponse = await requestAgent.get('/clients')
+    const queryParams = {
+        sort: {
+            clientName: 'asc',
+        }
+    }
+
+    const encodeParamsString = encodeURIComponent(JSON.stringify(queryParams));
+
+    const clientsResponse = await requestAgent.get(`/clients?params=${encodeParamsString}`)
         .set("x-access-token", response.body.token)
-        .send({
-            sort: {
-                clientName: 'asc',
-            }
-        })
 
     expect(clientsResponse.status).toBe(200)
     expect(clientsResponse.body.clients[0].name).toEqual(client1Model.name)
@@ -148,13 +151,18 @@ it('Gets a list of latest clients ordered by compandy name ASC', async () => {
         .set('Content-Type', 'application/json')
         .send({ email: TEST_USER_EMAIL, password: TEST_USER_PASS })
 
-    const clientsResponse = await requestAgent.get('/clients')
+
+    const queryParams = {
+        sort: {
+            companyName: 'asc',
+        }
+    }
+    
+    const encodeParamsString = encodeURIComponent(JSON.stringify(queryParams));
+
+    const clientsResponse = await requestAgent.get(`/clients?params=${encodeParamsString}`)
         .set("x-access-token", response.body.token)
-        .send({
-            sort: {
-                companyName: 'asc',
-            }
-        })
+
 
     expect(clientsResponse.status).toBe(200)
     expect(clientsResponse.body.clients[0].name).toEqual(client2Model.name)
@@ -170,13 +178,16 @@ it('Gets a list of latest clients ordered by total billed ASC', async () => {
         .set('Content-Type', 'application/json')
         .send({ email: TEST_USER_EMAIL, password: TEST_USER_PASS })
 
-    const clientsResponse = await requestAgent.get('/clients')
+    const queryParams = {
+        sort: {
+            totalBilled: 'asc',
+        }
+    }
+    
+    const encodeParamsString = encodeURIComponent(JSON.stringify(queryParams));
+
+    const clientsResponse = await requestAgent.get(`/clients?params=${encodeParamsString}`)
         .set("x-access-token", response.body.token)
-        .send({
-            sort: {
-                totalBilled: 'asc',
-            }
-        })
 
     expect(clientsResponse.status).toBe(200)
     expect(clientsResponse.body.clients[0].name).toEqual(client2Model.name)
