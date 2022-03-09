@@ -8,8 +8,13 @@ import { UsersRepository } from '../repositories/usersRepository'
 export const mainRoutes = (app: Express ) => {
 
     app.get("/invoices", verifyTokenMiddleware, async (req, res) => {
-        const { filter, sort } = req.body
+        
         try {
+            const { params = "{}" } = req.query as Record<string, any>;
+            const queryParams = JSON.parse(params)
+    
+            const { filter, sort } = queryParams
+
             const invoiceAggregate = app.get("invoiceClientAggregate") as ClientInvoicesRepoAggregate
             const userId = (req as any).user.user_id;
             const result = await invoiceAggregate.getInvoices({
@@ -74,8 +79,13 @@ export const mainRoutes = (app: Express ) => {
 
     app.get("/clients", verifyTokenMiddleware, async (req, res) => {
         const invoiceAggregate = app.get("invoiceClientAggregate") as ClientInvoicesRepoAggregate
-        const { filter, sort } = req.body
+       
         try {
+            const { params = "{}" } = req.query as Record<string, any>;
+            const queryParams = JSON.parse(params)
+    
+            const { filter, sort } = queryParams
+            
             const userId = (req as any).user.user_id;
             const result = await invoiceAggregate.getClients({
                 userId, filter, sort

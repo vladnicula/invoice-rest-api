@@ -134,13 +134,17 @@ it('Gets list by client id', async () => {
         .set('Content-Type', 'application/json')
         .send({ email: TEST_USER_EMAIL, password: TEST_USER_PASS })
 
-    const invoicesResponse = await requestAgent.get('/invoices')
+    const queryParams = {
+        filter: {
+            clientId: client2Model.id
+        }
+    }
+
+    const encodeParamsString = encodeURIComponent(JSON.stringify(queryParams));
+
+
+    const invoicesResponse = await requestAgent.get(`/invoices?params=${encodeParamsString}`)
         .set("x-access-token", response.body.token)
-        .send({
-            filter: {
-                clientId: client2Model.id
-            }
-        })
     expect(invoicesResponse.status).toBe(200)
     expect(invoicesResponse.body.invoices).toHaveLength(1)
 })
@@ -153,16 +157,20 @@ it('Gets list by client id, sorted by price, desc', async () => {
         .set('Content-Type', 'application/json')
         .send({ email: TEST_USER_EMAIL, password: TEST_USER_PASS })
 
-    const invoicesResponse = await requestAgent.get('/invoices')
+    const queryParams = {
+        sort: {
+            price: 'desc',
+        },
+        filter: {
+            clientId: client1Model.id
+        }
+    }
+
+    const encodeParamsString = encodeURIComponent(JSON.stringify(queryParams));
+
+    const invoicesResponse = await requestAgent.get(`/invoices?params=${encodeParamsString}`)
         .set("x-access-token", response.body.token)
-        .send({
-            sort: {
-                price: 'desc',
-            },
-            filter: {
-                clientId: client1Model.id
-            }
-        })
+
     expect(invoicesResponse.status).toBe(200)
     expect(invoicesResponse.body.invoices).toHaveLength(3)
     expect(invoicesResponse.body.invoices[0].invoice).toHaveProperty("value", 1500);
