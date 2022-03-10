@@ -8,17 +8,16 @@ import { UsersRepository } from '../repositories/usersRepository'
 export const mainRoutes = (app: Express ) => {
 
     app.get("/invoices", verifyTokenMiddleware, async (req, res) => {
-        
         try {
             const { params = "{}" } = req.query as Record<string, any>;
             const queryParams = JSON.parse(params)
-    
-            const { filter, sort } = queryParams
+
+            const { filter, sort, offset, limit } = queryParams
 
             const invoiceAggregate = app.get("invoiceClientAggregate") as ClientInvoicesRepoAggregate
             const userId = (req as any).user.user_id;
             const result = await invoiceAggregate.getInvoices({
-                userId, filter, sort
+                userId, filter, sort, offset, limit
             })
             return res.json({invoices: result})
         } catch (err) {
@@ -61,15 +60,15 @@ export const mainRoutes = (app: Express ) => {
             const invoicesRepo = app.get("invoicesRepo") as InvoicesRepository
             const userId = (req as any).user.user_id as string;
             const invoiceData = await invoicesRepo.getById(req.body.id)
-            
+
             if ( !invoiceData ) {
                 res.status(404).send("Client not found. Cannot update.")
             }
-            
+
             if ( invoiceData.user_id !== userId ) {
                 res.status(404).send("Client not found. Cannot update.")
             }
-            
+
             const result = await invoicesRepo.update({user_id: userId, ...req.body})
             return res.json({success: true, invoice: result})
            } catch (err) {
@@ -79,21 +78,19 @@ export const mainRoutes = (app: Express ) => {
 
     app.get("/clients", verifyTokenMiddleware, async (req, res) => {
         const invoiceAggregate = app.get("invoiceClientAggregate") as ClientInvoicesRepoAggregate
-       
         try {
             const { params = "{}" } = req.query as Record<string, any>;
             const queryParams = JSON.parse(params)
-    
-            const { filter, sort } = queryParams
-            
+            const { filter, sort, offset, limit } = queryParams
+
             const userId = (req as any).user.user_id;
             const result = await invoiceAggregate.getClients({
-                userId, filter, sort
+                userId, filter, sort, offset, limit
             })
             setTimeout(() => {
                 res.json({clients: result})
             }, 1000)
-            return 
+            return
         } catch (err) {
             console.log(err.message);
             res.status(500).send(err.message)
@@ -132,15 +129,15 @@ export const mainRoutes = (app: Express ) => {
             const clientsRepo = app.get("clientsRepo") as ClientsRepository
             const userId = (req as any).user.user_id as string;
             const userOwningClient = await clientsRepo.getById(req.body.id)
-            
+
             if ( !userOwningClient ) {
                 res.status(404).send("Client not found. Cannot update.")
             }
-            
+
             if ( userOwningClient.user_id !== userId ) {
                 res.status(404).send("Client not found. Cannot update.")
             }
-            
+
             const result = await clientsRepo.update({user_id: userId, ...req.body})
             return res.json({success: true, client: result})
            } catch (err) {
