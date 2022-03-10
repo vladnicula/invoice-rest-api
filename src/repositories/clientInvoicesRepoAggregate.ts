@@ -30,6 +30,7 @@ export type ClientListingSortingByArgs = {
     clientName?: "asc" | "desc"
     companyName?: "asc" | "desc"
     totalBilled?: "asc" | "desc"
+    invoicesCount?: "asc" | "desc"
 }
 
 export type ClientListingFilterByArgs = {
@@ -139,21 +140,25 @@ export class ClientInvoicesRepoAggregate {
     async getClients(params: { userId: string; filter: InvoiceListingFilterByArgs; sort: ClientListingSortingByArgs; offset?: number, limit?: number }) {
         const { filter = {}, sort = {}, userId, offset = 0, limit = 20 } = params;
         const allClients = await this.clientsRepo.getByUserId(userId)
-        const allInvoices = await this.invoicesRepo.getByUserId(userId)
+        const allInvoices = await this.invoicesRepo.getByUserId(userId)        
 
-        const allClientsWithTotalBilled = allClients.map((client) => {
+        const allClientsWithTotalBilledAndNumberOfInvoices = allClients.map((client) => {
+
+            const [totalBilled, invoicesCount] = allInvoices.reduce((acc, item) => {
+                if ( item.client_id === client.id) {
+                    return [acc[0] + item.value, ++acc[1]]
+                }
+                return acc;
+            }, [0,0]);
+            
             return {
                 ...client,
-                totalBilled: allInvoices.reduce((acc, item) => {
-                    if ( item.client_id === client.id) {
-                        return acc + item.value
-                    }
-                    return acc;
-                }, 0)
+                totalBilled,
+                invoicesCount
             }
         })
 
-        let sortedResults = allClientsWithTotalBilled;
+        let sortedResults = allClientsWithTotalBilledAndNumberOfInvoices;
         if ( Object.keys(sort).length ) {
             if ( sort.clientName ) {
                 const coef = sort.clientName === 'asc' ? 1 : -1
@@ -184,9 +189,21 @@ export class ClientInvoicesRepoAggregate {
                     return -coef;
                 })
             }
+
+            if ( sort.invoicesCount ) {
+                const coef = sort.invoicesCount === 'asc' ? 1 : -1;
+                sortedResults = sortedResults.sort((a, b) => {
+                    if ( a.invoicesCount > b.invoicesCount ) {
+                        return coef;
+                    }
+                    return -coef;
+                })
+            }
         }
+
         return sortedResults.slice(offset, offset+limit);
     }
+
 
 
     async addInvoice (params: { user_id: string, invoiceData: Partial<InvoiceData> } ) {

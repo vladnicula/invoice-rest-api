@@ -117,6 +117,9 @@ it('Gets a list of latest clients when no params specified', async () => {
     expect(clientsResponse.status).toBe(200)
     expect(clientsResponse.body.clients).toBeTruthy();
     expect(clientsResponse.body.clients).toHaveLength(2);
+
+    expect(clientsResponse.body.clients[0]).toHaveProperty("totalBilled");
+    expect(clientsResponse.body.clients[0]).toHaveProperty("invoicesCount");
 })
 
 it('Gets a list of latest clients ordered by name ASC', async () => {
@@ -192,6 +195,29 @@ it('Gets a list of latest clients ordered by total billed ASC', async () => {
     expect(clientsResponse.status).toBe(200)
     expect(clientsResponse.body.clients[0].name).toEqual(client2Model.name)
     expect(clientsResponse.body.clients[1].name).toEqual(client1Model.name)
+})
+
+it('Gets a list of latest clients ordered by invoices count ASC', async () => {
+    const requestAgent = supertest.agent(app, null)
+
+    const response = await requestAgent
+        .post('/login')
+        .set('Content-Type', 'application/json')
+        .send({ email: TEST_USER_EMAIL, password: TEST_USER_PASS })
+
+    const queryParams = {
+        sort: {
+            invoicesCount: 'asc',
+        }
+    }
+    
+    const encodeParamsString = encodeURIComponent(JSON.stringify(queryParams));
+
+    const clientsResponse = await requestAgent.get(`/clients?params=${encodeParamsString}`)
+        .set("x-access-token", response.body.token)
+
+    expect(clientsResponse.status).toBe(200)
+    expect(clientsResponse.body.clients[0].invoicesCount).toBeLessThan(clientsResponse.body.clients[1].invoicesCount)
 })
 
 it('Gets a list of latest clients ordered by total billed ASC, paginiated using limit and offset', async () => {
