@@ -194,6 +194,31 @@ it('Gets a list of latest clients ordered by total billed ASC', async () => {
     expect(clientsResponse.body.clients[1].name).toEqual(client1Model.name)
 })
 
+it('Gets a list of latest clients ordered by total billed ASC, paginiated using limit and offset', async () => {
+    const requestAgent = supertest.agent(app, null)
+
+    const response = await requestAgent
+        .post('/login')
+        .set('Content-Type', 'application/json')
+        .send({ email: TEST_USER_EMAIL, password: TEST_USER_PASS })
+
+    const queryParams = {
+        sort: {
+            totalBilled: 'asc',
+        },
+        offset: 1,
+        limit: 2
+    }
+    
+    const encodeParamsString = encodeURIComponent(JSON.stringify(queryParams));
+
+    const clientsResponse = await requestAgent.get(`/clients?params=${encodeParamsString}`)
+        .set("x-access-token", response.body.token)
+
+    expect(clientsResponse.status).toBe(200)
+    expect(clientsResponse.body.clients).toHaveLength(1)
+})
+
 
 it('Creates a new client for logged in user' , async () => {
 
