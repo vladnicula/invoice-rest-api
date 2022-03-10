@@ -132,7 +132,7 @@ export class ClientInvoicesRepoAggregate {
                 })
             }
         }
-        return sortedResults.slice(offset, limit);
+        return sortedResults.slice(offset, offset+limit);
     }
 
 
@@ -185,7 +185,7 @@ export class ClientInvoicesRepoAggregate {
                 })
             }
         }
-        return sortedResults.slice(offset, limit);
+        return sortedResults.slice(offset, offset+limit);
     }
 
 

@@ -149,6 +149,80 @@ it('Gets list by client id', async () => {
     expect(invoicesResponse.body.invoices).toHaveLength(1)
 })
 
+it('Gets list by client id, paginiated using limit and offset', async () => {
+    const requestAgent = supertest.agent(app, null)
+
+    const response = await requestAgent
+        .post('/login')
+        .set('Content-Type', 'application/json')
+        .send({ email: TEST_USER_EMAIL, password: TEST_USER_PASS })
+
+    const queryParams = {
+        filter: {
+            clientId: client1Model.id
+        },
+        limit: 2,
+        offset: 0
+    }
+
+    const encodeParamsString = encodeURIComponent(JSON.stringify(queryParams));
+
+
+    const invoicesResponse = await requestAgent.get(`/invoices?params=${encodeParamsString}`)
+        .set("x-access-token", response.body.token)
+    expect(invoicesResponse.status).toBe(200)
+    expect(invoicesResponse.body.invoices).toHaveLength(2)
+})
+
+
+it('Limit larger than full result set does not break query', async () => {
+    const requestAgent = supertest.agent(app, null)
+
+    const response = await requestAgent
+        .post('/login')
+        .set('Content-Type', 'application/json')
+        .send({ email: TEST_USER_EMAIL, password: TEST_USER_PASS })
+
+    const queryParams = {
+        filter: {
+            clientId: client2Model.id
+        },
+        limit: 30,
+    }
+
+    const encodeParamsString = encodeURIComponent(JSON.stringify(queryParams));
+
+
+    const invoicesResponse = await requestAgent.get(`/invoices?params=${encodeParamsString}`)
+        .set("x-access-token", response.body.token)
+    expect(invoicesResponse.status).toBe(200)
+    expect(invoicesResponse.body.invoices).toHaveLength(1)
+})
+
+it('Offset larger than full result set does not break query', async () => {
+    const requestAgent = supertest.agent(app, null)
+
+    const response = await requestAgent
+        .post('/login')
+        .set('Content-Type', 'application/json')
+        .send({ email: TEST_USER_EMAIL, password: TEST_USER_PASS })
+
+    const queryParams = {
+        filter: {
+            clientId: client2Model.id
+        },
+        offset: 30,
+    }
+
+    const encodeParamsString = encodeURIComponent(JSON.stringify(queryParams));
+
+
+    const invoicesResponse = await requestAgent.get(`/invoices?params=${encodeParamsString}`)
+        .set("x-access-token", response.body.token)
+    expect(invoicesResponse.status).toBe(200)
+    expect(invoicesResponse.body.invoices).toHaveLength(0)
+})
+
 it('Gets list by client id, sorted by price, desc', async () => {
     const requestAgent = supertest.agent(app, null)
 
