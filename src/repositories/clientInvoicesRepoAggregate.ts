@@ -133,14 +133,14 @@ export class ClientInvoicesRepoAggregate {
                 })
             }
         }
-        return sortedResults.slice(offset, offset+limit);
+        return { result: sortedResults.slice(offset, offset+limit), total: sortedResults.length }
     }
 
 
     async getClients(params: { userId: string; filter: InvoiceListingFilterByArgs; sort: ClientListingSortingByArgs; offset?: number, limit?: number }) {
         const { filter = {}, sort = {}, userId, offset = 0, limit = 20 } = params;
         const allClients = await this.clientsRepo.getByUserId(userId)
-        const allInvoices = await this.invoicesRepo.getByUserId(userId)        
+        const allInvoices = await this.invoicesRepo.getByUserId(userId)
 
         const allClientsWithTotalBilledAndNumberOfInvoices = allClients.map((client) => {
 
@@ -150,7 +150,7 @@ export class ClientInvoicesRepoAggregate {
                 }
                 return acc;
             }, [0,0]);
-            
+
             return {
                 ...client,
                 totalBilled,
@@ -201,7 +201,7 @@ export class ClientInvoicesRepoAggregate {
             }
         }
 
-        return sortedResults.slice(offset, offset+limit);
+        return { result: sortedResults.slice(offset, offset+limit), total: sortedResults.length }
     }
 
 
