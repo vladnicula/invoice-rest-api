@@ -27,7 +27,7 @@ export class ClientsRepository extends BaseRepository<ClientData> {
     }
 
     async getByEmailForUser (email: string, user_id: string) {
-        return this.inMemoryData.find((item) => item.email === email)
+        return this.inMemoryData.find((item) => item.email === email && item.user_id === user_id)
     }
 
     async add(client: Omit<ClientData, "id">) {

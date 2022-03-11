@@ -16,10 +16,10 @@ export const mainRoutes = (app: Express ) => {
 
             const invoiceAggregate = app.get("invoiceClientAggregate") as ClientInvoicesRepoAggregate
             const userId = (req as any).user.user_id;
-            const result = await invoiceAggregate.getInvoices({
+            const { result, total } = await invoiceAggregate.getInvoices({
                 userId, filter, sort, offset, limit
             })
-            return res.json({invoices: result})
+            return res.json({invoices: result, total })
         } catch (err) {
             res.status(500).send(err.message)
         }
@@ -84,11 +84,11 @@ export const mainRoutes = (app: Express ) => {
             const { filter, sort, offset, limit } = queryParams
 
             const userId = (req as any).user.user_id;
-            const result = await invoiceAggregate.getClients({
+            const { result, total } = await invoiceAggregate.getClients({
                 userId, filter, sort, offset, limit
             })
             setTimeout(() => {
-                res.json({clients: result})
+                res.json({clients: result, total})
             }, 1000)
             return
         } catch (err) {
