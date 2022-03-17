@@ -58,5 +58,29 @@
             "address": "Home"
         },
         "id": "1644502347235"
+    },
+    {
+        "user_id": "111",
+        "email": "week05_01@test.com",
+        "name": "John Doe",
+        "companyDetails": {
+            "name": "Startlink",
+            "address": "Earth",
+            "vatNumber": "43432423432",
+            "regNumber": "23421423523"
+        },
+        "id": "a06814e1-1cf4-4536-b8de-27f40d249379"
+    },
+    {
+        "user_id": "111",
+        "email": "week5_02@test.com",
+        "name": "John Doe",
+        "companyDetails": {
+            "name": "Toptal",
+            "address": "Earth",
+            "vatNumber": "43432423432dsadas",
+            "regNumber": "23421423523123213"
+        },
+        "id": "d2953481-7c59-42e2-b203-0acfe871014e"
     }
 ]

@@ -1,4 +1,3 @@
-import { exec } from 'child_process';
 import { ClientInvoicesRepoAggregate } from '../src/repositories/clientInvoicesRepoAggregate'
 import { ClientsRepository, ClientData } from '../src/repositories/clientsRepository'
 import { InvoicesRepository } from '../src/repositories/invoicesRepository'
@@ -101,9 +100,9 @@ it("Gets invoices by user id sorted by creation date DESC", async () => {
         }
     });
 
-    expect(response).toHaveLength(4)
-    expect(response[0].invoice).toHaveProperty('invoice_number', 'LatestInvoiceByTime')
-    expect(response[3].invoice).toHaveProperty('invoice_number', 'FirstInvoiceByTime')
+    expect(response.result).toHaveLength(4)
+    expect(response.result[0].invoice).toHaveProperty('invoice_number', 'LatestInvoiceByTime')
+    expect(response.result[3].invoice).toHaveProperty('invoice_number', 'FirstInvoiceByTime')
 })
 
 it("Gets invoices by user id sorted by company name ASC", async () => {
@@ -115,9 +114,9 @@ it("Gets invoices by user id sorted by company name ASC", async () => {
         }
     })
 
-    expect(response).toHaveLength(4)
-    expect(response[0].client).toHaveProperty('id', client1Model.id)
-    expect(response[3].client).toHaveProperty('id', client2Model.id)
+    expect(response.result).toHaveLength(4)
+    expect(response.result[0].client).toHaveProperty('id', client1Model.id)
+    expect(response.result[3].client).toHaveProperty('id', client2Model.id)
 })
 
 it("Gets invoices by user id filtered by company name", async () => {
@@ -128,8 +127,8 @@ it("Gets invoices by user id filtered by company name", async () => {
         }
     })
 
-    expect(response).toHaveLength(1)
-    expect(response[0].client).toHaveProperty('id', client2Model.id)
+    expect(response.result).toHaveLength(1)
+    expect(response.result[0].client).toHaveProperty('id', client2Model.id)
 })
 
 it("Gets invoices by user id filterd by date, sorted by price DESC", async () => {
@@ -146,12 +145,12 @@ it("Gets invoices by user id filterd by date, sorted by price DESC", async () =>
         }
     })
 
-    expect(response).toHaveLength(2)
-    expect(response[0].invoice.date).toBeGreaterThanOrEqual(5000)
-    expect(response[0].invoice.date).toBeLessThan(7501)
-    expect(response[1].invoice.date).toBeGreaterThanOrEqual(5000)
-    expect(response[1].invoice.date).toBeLessThan(7501)
-    expect(response[0].invoice.value).toBeGreaterThanOrEqual(response[1].invoice.value)
+    expect(response.result).toHaveLength(2)
+    expect(response.result[0].invoice.date).toBeGreaterThanOrEqual(5000)
+    expect(response.result[0].invoice.date).toBeLessThan(7501)
+    expect(response.result[1].invoice.date).toBeGreaterThanOrEqual(5000)
+    expect(response.result[1].invoice.date).toBeLessThan(7501)
+    expect(response.result[0].invoice.value).toBeGreaterThanOrEqual(response.result[1].invoice.value)
     
 })
 
@@ -163,10 +162,10 @@ it("Gets invoices by user id sorted by due date ASC", async () => {
         }
     })
 
-    expect(response).toHaveLength(4)
-    expect(response[3].invoice.dueDate).toBeGreaterThanOrEqual(response[2].invoice.dueDate)
-    expect(response[2].invoice.dueDate).toBeGreaterThanOrEqual(response[1].invoice.dueDate)
-    expect(response[1].invoice.dueDate).toBeGreaterThanOrEqual(response[0].invoice.dueDate)
+    expect(response.result).toHaveLength(4)
+    expect(response.result[3].invoice.dueDate).toBeGreaterThanOrEqual(response.result[2].invoice.dueDate)
+    expect(response.result[2].invoice.dueDate).toBeGreaterThanOrEqual(response.result[1].invoice.dueDate)
+    expect(response.result[1].invoice.dueDate).toBeGreaterThanOrEqual(response.result[0].invoice.dueDate)
 })
 
 it("Gets invoices by user id where due date is less than a specific value", async () => {
@@ -182,9 +181,9 @@ it("Gets invoices by user id where due date is less than a specific value", asyn
         }
     })
 
-    expect(response).toHaveLength(3)
-    expect(response[2].invoice.dueDate).toBeGreaterThanOrEqual(response[1].invoice.dueDate)
-    expect(response[1].invoice.dueDate).toBeGreaterThanOrEqual(response[0].invoice.dueDate)
+    expect(response.result).toHaveLength(3)
+    expect(response.result[2].invoice.dueDate).toBeGreaterThanOrEqual(response.result[1].invoice.dueDate)
+    expect(response.result[1].invoice.dueDate).toBeGreaterThanOrEqual(response.result[0].invoice.dueDate)
 })
 
 it("Add new invoice for valid user_id, client combination", async () => {
