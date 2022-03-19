@@ -158,7 +158,16 @@ export class ClientInvoicesRepoAggregate {
             }
         })
 
-        let sortedResults = allClientsWithTotalBilledAndNumberOfInvoices;
+        let filteredResults = allClientsWithTotalBilledAndNumberOfInvoices;
+        if ( Object.keys(filter).length ) {
+            if ( filter.clientId ) {
+                filteredResults = filteredResults.filter((item) => {
+                    return item.id === filter.clientId
+                })
+            }
+        }
+
+        let sortedResults = filteredResults;
         if ( Object.keys(sort).length ) {
             if ( sort.clientName ) {
                 const coef = sort.clientName === 'asc' ? 1 : -1
