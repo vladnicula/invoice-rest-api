@@ -11,6 +11,7 @@ export type InvoiceListingSortingByArgs = {
     price?: "asc" | "desc"
     companyName?: "asc" | "desc"
     dueDate?: "asc" | "desc"
+    creation?: "asc" | "desc"
 }
 
 export type InvoiceListingFilterByArgs = {
@@ -31,6 +32,7 @@ export type ClientListingSortingByArgs = {
     companyName?: "asc" | "desc"
     totalBilled?: "asc" | "desc"
     invoicesCount?: "asc" | "desc"
+    creation?: "asc" | "desc"
 }
 
 export type ClientListingFilterByArgs = {
@@ -93,6 +95,9 @@ export class ClientInvoicesRepoAggregate {
 
         let sortedResults = filteredResults;
         if ( Object.keys(sort).length ) {
+            if ( sort.creation === 'desc' ) {
+                sortedResults = sortedResults.reverse();
+            }
             if ( sort.date ) {
                 const coef = sort.date === 'asc' ? 1 : -1
                 sortedResults = sortedResults.sort((a,b) => {
@@ -158,8 +163,20 @@ export class ClientInvoicesRepoAggregate {
             }
         })
 
-        let sortedResults = allClientsWithTotalBilledAndNumberOfInvoices;
+        let filteredResults = allClientsWithTotalBilledAndNumberOfInvoices;
+        if ( Object.keys(filter).length ) {
+            if ( filter.clientId ) {
+                filteredResults = filteredResults.filter((item) => {
+                    return item.id === filter.clientId
+                })
+            }
+        }
+
+        let sortedResults = filteredResults;
         if ( Object.keys(sort).length ) {
+        if ( sort.creation === 'desc' ) {
+                sortedResults = sortedResults.reverse();
+            }
             if ( sort.clientName ) {
                 const coef = sort.clientName === 'asc' ? 1 : -1
                 sortedResults = sortedResults.sort((a,b) => {
