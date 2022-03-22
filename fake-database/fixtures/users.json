@@ -1,0 +1,50 @@
+[
+    {
+        "id": "111",
+        "name": "John Doe 1",
+        "email": "fake_user1@officehourtesting.com",
+        "password": "123456",
+        "companyDetails": {
+            "name": "Skynet 01",
+            "address": "1st Bulevard Street",
+            "vatNumber": "1234",
+            "regNumber": "9876"
+        }
+    },
+    {
+        "id": "222",
+        "name": "John Doe 2",
+        "email": "fake_user2@officehourtesting.com",
+        "password": "123456",
+        "companyDetails": {
+            "name": "Skynet 02",
+            "address": "1st Bulevard Street",
+            "vatNumber": "1234",
+            "regNumber": "9876"
+        }
+    },
+    {
+        "id": "333",
+        "name": "John Doe 3",
+        "email": "fake_user3@officehourtesting.com",
+        "password": "123456",
+        "companyDetails": {
+            "name": "Skynet 03",
+            "address": "1st Bulevard Street",
+            "vatNumber": "1234",
+            "regNumber": "9876"
+        }
+    },
+    {
+        "id": "444",
+        "name": "John Doe 4",
+        "email": "fake_user4@officehourtesting.com",
+        "password": "123456",
+        "companyDetails": {
+            "name": "Skynet 04",
+            "address": "1st Bulevard Street",
+            "vatNumber": "1234",
+            "regNumber": "9876"
+        }
+    }
+]

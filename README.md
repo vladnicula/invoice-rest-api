@@ -33,3 +33,12 @@ All endpoints and operations are tested. To run the tests you can:
 ```
 npm run test
 ```
+
+## DB Reset
+
+A database reset command is implemented which will copy over the original fixtures 
+of the fake database over into the main files.
+
+```
+npm run reset-dev-db
+```
