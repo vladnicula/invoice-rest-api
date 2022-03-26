@@ -62,11 +62,11 @@ export const mainRoutes = (app: Express ) => {
             const invoiceData = await invoicesRepo.getById(req.body.id)
 
             if ( !invoiceData ) {
-                res.status(404).send("Client not found. Cannot update.")
+                res.status(404).send("Invoice not found. Cannot update.")
             }
 
             if ( invoiceData.user_id !== userId ) {
-                res.status(404).send("Client not found. Cannot update.")
+                res.status(404).send("Invoice not found. Cannot update.")
             }
 
             const result = await invoicesRepo.update({user_id: userId, ...req.body})
