@@ -4,7 +4,7 @@
   "description": "A super simple REST API server that writes to JSON basic invoice and client info. The role of this app is to help with developing the Toptal React Academy projecty",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "npx tsc",
     "start": "node .",
     "test": "ENVIRONMENT=test jest",
     "reset-dev-db": "PATH_TO_JSON_DIR=./fake-database node ./scripts/reset-dev-db"
