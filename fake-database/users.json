@@ -76,5 +76,11 @@
             "regNumber": 12314214,
             "swift": "CTCBIDJASBY"
         }
+    },
+    {
+        "name": "New User Test",
+        "email": "vladnicula2@gmail.com",
+        "password": "Test01$",
+        "id": "6b78b5ae-fb12-42f6-be38-bb7a50d532f6"
     }
 ]

@@ -6,12 +6,13 @@
   "scripts": {
     "build": "npx tsc",
     "start": "node .",
-    "test": "ENVIRONMENT=test jest",
-    "reset-dev-db": "PATH_TO_JSON_DIR=./fake-database node ./scripts/reset-dev-db"
+    "test": "cross-env ENVIRONMENT=test jest",
+    "reset-dev-db": "cross-env PATH_TO_JSON_DIR=./fake-database node ./scripts/reset-dev-db"
   },
   "author": "Vlad Nicula",
   "dependencies": {
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
     "dotenv": "^14.2.0",
     "express": "^4.17.2",
     "express-jwt": "^6.1.0",
