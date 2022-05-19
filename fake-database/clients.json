@@ -14,7 +14,7 @@
     {
         "user_id": "111",
         "email": "newUser2@test.com",
-        "name": "John",
+        "name": "Johnny",
         "companyDetails": {
             "name": "Skynet 2",
             "vatNumber": "1234",
@@ -58,5 +58,33 @@
             "address": "Home"
         },
         "id": "1644502347235"
+    },
+    {
+        "user_id": "111",
+        "name": "Vlad Nicula",
+        "email": "vladnicula@gmail.com",
+        "companyDetails": {
+            "address": "Str. Alexandru Vaida Voevod, Nr. 16, Bl.1b, Sc.Ii",
+            "name": "Startlink",
+            "iban": "DE89370400440532013000",
+            "regNumber": "12314214",
+            "swift": "CTCBIDJASBY",
+            "vatNumber": "231412"
+        },
+        "id": "882ac157-0a98-4e8d-99d7-5784ed7a67bf"
+    },
+    {
+        "user_id": "83aa8e3b-0597-415e-90d9-0f933db3e4c5",
+        "email": "newClient@test.com",
+        "name": "Bobby Junior",
+        "companyDetails": {
+            "name": "Startlink",
+            "address": "Earth",
+            "vatNumber": "1321421312",
+            "regNumber": "321421412",
+            "iban": "31242151513123214",
+            "swift": "513634745376etrfsdfs"
+        },
+        "id": "48e8d6cd-45cd-4e5a-96e5-cc83470fb9a1"
     }
 ]

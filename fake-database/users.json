@@ -5,10 +5,12 @@
         "email": "fake_user1@officehourtesting.com",
         "password": "123456",
         "companyDetails": {
-            "name": "Skynet 01",
-            "address": "1st Bulevard Street",
-            "vatNumber": "1234",
-            "regNumber": "9876"
+            "name": "Vlad Nicula",
+            "iban": "DE89370400440532013000",
+            "address": "Bob's house",
+            "vatNumber": "231412",
+            "regNumber": 12314214,
+            "swift": "CTCBIDJASBY"
         }
     },
     {
@@ -45,6 +47,34 @@
             "address": "1st Bulevard Street",
             "vatNumber": "1234",
             "regNumber": "9876"
+        }
+    },
+    {
+        "name": "New Guys",
+        "email": "vladnicula@gmail.com",
+        "password": "Test01$",
+        "id": "83aa8e3b-0597-415e-90d9-0f933db3e4c5",
+        "companyDetails": {
+            "name": "Vlad Nicula",
+            "address": "Str. Alexandru Vaida Voevod, Nr. 16, Bl.1b, Sc.Ii",
+            "vatNumber": "231412",
+            "regNumber": "12314214",
+            "iban": "DE89370400440532013000",
+            "swift": "CTCBIDJASBY"
+        }
+    },
+    {
+        "name": "Vlad Nicula",
+        "email": "3321313112321vladnicula@gmail.com",
+        "password": "123456",
+        "id": "81ccab9f-2323-4ac0-86d7-3faeac04d8d6",
+        "companyDetails": {
+            "name": "Bob's LTD",
+            "iban": "DE89370400440532013000",
+            "address": "Bob's house",
+            "vatNumber": "231412",
+            "regNumber": 12314214,
+            "swift": "CTCBIDJASBY"
         }
     }
 ]

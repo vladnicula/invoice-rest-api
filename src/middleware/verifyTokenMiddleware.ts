@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken'
 import { RequestHandler } from "express";
-import { decode } from 'punycode';
 
 export const verifyTokenMiddleware: RequestHandler = (req, res, next) => {
     let token =

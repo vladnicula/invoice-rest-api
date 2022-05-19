@@ -31,6 +31,7 @@ export const authRoutes = (app: Express) => {
                     "email": user.email,
                     "name": user.name,
                     "token": token,
+                    "companyDetails": user.companyDetails
                 });
 
             }
