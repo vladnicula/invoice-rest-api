@@ -22,7 +22,7 @@ export const authRoutes = (app: Express) => {
                     { user_id: user.id, email },
                     process.env.TOKEN_KEY,
                     {
-                        expiresIn: "2h",
+                        expiresIn: "1h",
                     }
                 )
 

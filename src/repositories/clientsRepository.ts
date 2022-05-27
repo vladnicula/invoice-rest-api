@@ -55,4 +55,15 @@ export class ClientsRepository extends BaseRepository<ClientData> {
             )
         ))
     }
+
+    getClientCompanyNames(user_id: string) {
+        return this.inMemoryData.filter((item) => (
+            item.user_id === user_id
+        )).map((client) => {
+            return {
+                id: client.id,
+                companyName: client.companyDetails.name
+            }
+        })
+    }
 }

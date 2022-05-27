@@ -5,12 +5,10 @@
         "email": "fake_user1@officehourtesting.com",
         "password": "123456",
         "companyDetails": {
-            "name": "Vlad Nicula",
-            "iban": "DE89370400440532013000",
-            "address": "Bob's house",
-            "vatNumber": "231412",
-            "regNumber": 12314214,
-            "swift": "CTCBIDJASBY"
+            "name": "Skynet 01",
+            "address": "1st Bulevard Street",
+            "vatNumber": "1234",
+            "regNumber": "9876"
         }
     },
     {
@@ -50,37 +48,17 @@
         }
     },
     {
-        "name": "New Guys",
-        "email": "vladnicula@gmail.com",
+        "name": "Onboarding New User E2E",
+        "email": "onboarding-new-user-e2e@test.com",
         "password": "Test01$",
-        "id": "83aa8e3b-0597-415e-90d9-0f933db3e4c5",
+        "id": "61403a53-1d41-4f61-b9ba-85cefc196131",
         "companyDetails": {
-            "name": "Vlad Nicula",
-            "address": "Str. Alexandru Vaida Voevod, Nr. 16, Bl.1b, Sc.Ii",
-            "vatNumber": "231412",
-            "regNumber": "12314214",
-            "iban": "DE89370400440532013000",
-            "swift": "CTCBIDJASBY"
+            "name": "Onboading",
+            "address": "Earth",
+            "vatNumber": "123141",
+            "regNumber": "13214123",
+            "iban": "IGNBRO1321321421421",
+            "swift": "IGNROBU"
         }
-    },
-    {
-        "name": "Vlad Nicula",
-        "email": "3321313112321vladnicula@gmail.com",
-        "password": "123456",
-        "id": "81ccab9f-2323-4ac0-86d7-3faeac04d8d6",
-        "companyDetails": {
-            "name": "Bob's LTD",
-            "iban": "DE89370400440532013000",
-            "address": "Bob's house",
-            "vatNumber": "231412",
-            "regNumber": 12314214,
-            "swift": "CTCBIDJASBY"
-        }
-    },
-    {
-        "name": "New User Test",
-        "email": "vladnicula2@gmail.com",
-        "password": "Test01$",
-        "id": "6b78b5ae-fb12-42f6-be38-bb7a50d532f6"
     }
 ]

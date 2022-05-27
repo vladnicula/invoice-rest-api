@@ -1,9 +1,11 @@
+import path from 'path'
 import { Express } from 'express'
 import { ClientInvoicesRepoAggregate } from '../repositories/clientInvoicesRepoAggregate'
 import { verifyTokenMiddleware } from "../middleware/verifyTokenMiddleware"
 import { ClientsRepository } from '../repositories/clientsRepository'
 import { InvoiceData, InvoicesRepository } from '../repositories/invoicesRepository'
 import { UsersRepository } from '../repositories/usersRepository'
+import { copyFileSync } from 'fs'
 
 export const mainRoutes = (app: Express ) => {
 
@@ -97,6 +99,19 @@ export const mainRoutes = (app: Express ) => {
         }
     })
 
+
+
+    app.get("clients/names", verifyTokenMiddleware, async (req, res) => {
+        try {
+            const clientsRepo = app.get("clientsRepo") as ClientsRepository
+            const userId = (req as any).user.user_id;
+            const results = await clientsRepo.getClientCompanyNames(userId)
+            return res.json({success: true, clients: results})
+        } catch(err) {
+            res.status(500).send(err.message)
+        }
+    })
+
     app.get("/clients/:id", verifyTokenMiddleware, async (req, res) => {
         const { id } = req.params;
         try {
@@ -166,5 +181,20 @@ export const mainRoutes = (app: Express ) => {
         } catch (err) {
             res.status(500).send(err.message)
         }
+     })
+
+     app.get('/reset', (req, res) => {
+        console.log("reseting api data")
+        const currentPath = path.resolve(__dirname, '../../scripts/reset-service')
+        const { run } = require(currentPath)  
+        const pathToFixtures = `${process.env.PATH_TO_JSON_DIR}/fixtures`;
+        run(pathToFixtures)
+        const usersRepo = app.get("usersRepo") as UsersRepository
+        const clientsRepo = app.get("clientsRepo") as ClientsRepository
+        const invoicesRepo = app.get("invoicesRepo") as InvoicesRepository;
+        usersRepo.init(process.env.PATH_TO_JSON_DIR)
+        clientsRepo.init(process.env.PATH_TO_JSON_DIR)
+        invoicesRepo.init(process.env.PATH_TO_JSON_DIR)
+        res.status(200).send("OK")
      })
 }
