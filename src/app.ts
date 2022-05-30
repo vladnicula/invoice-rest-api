@@ -13,7 +13,14 @@ import { UsersRepository } from "./repositories/usersRepository"
 // export needed for unit/integration testing
 export const app = express()
 
+app.use(function (req, res, next) {
+    if (req.headers["access-control-request-private-network"]) {
+        res.setHeader("access-control-allow-private-network", "true");
+    }
+    next(null);
+})
 app.use(cors())
+
 
 // parse JSON when content type is application/json
 app.use(express.json())
