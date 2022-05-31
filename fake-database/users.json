@@ -46,19 +46,5 @@
             "vatNumber": "1234",
             "regNumber": "9876"
         }
-    },
-    {
-        "name": "Onboarding New User E2E",
-        "email": "onboarding-new-user-e2e@test.com",
-        "password": "Test01$",
-        "id": "61403a53-1d41-4f61-b9ba-85cefc196131",
-        "companyDetails": {
-            "name": "Onboading",
-            "address": "Earth",
-            "vatNumber": "123141",
-            "regNumber": "13214123",
-            "iban": "IGNBRO1321321421421",
-            "swift": "IGNROBU"
-        }
     }
 ]

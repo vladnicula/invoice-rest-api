@@ -101,7 +101,7 @@ export const mainRoutes = (app: Express ) => {
 
 
 
-    app.get("clients/names", verifyTokenMiddleware, async (req, res) => {
+    app.get("/clients/names", verifyTokenMiddleware, async (req, res) => {
         try {
             const clientsRepo = app.get("clientsRepo") as ClientsRepository
             const userId = (req as any).user.user_id;
