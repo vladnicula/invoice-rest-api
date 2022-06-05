@@ -54,7 +54,7 @@ export const authRoutes = (app: Express) => {
             }
 
             if ( password !== confirmPassword ) {
-                return res.status(500).send("Password and Confirm Password do not match");
+                return res.status(400).send("Password and Confirm Password do not match");
             }
 
             try {
@@ -69,7 +69,7 @@ export const authRoutes = (app: Express) => {
                     "user_id": user.id,
                 })
             } catch (err) {
-                return res.status(500).send("Email already used by another account");
+                return res.status(400).send("Email already used by another account");
             }
         } catch (err) {
             console.log(err);
