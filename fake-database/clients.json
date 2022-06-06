@@ -4,10 +4,10 @@
         "email": "newUser@test.com",
         "name": "John",
         "companyDetails": {
-            "name": "company",
+            "name": "Apple",
             "vatNumber": "123",
             "regNumber": "123",
-            "address": "Home"
+            "address": "Cupertino"
         },
         "id": "1644482450322"
     },

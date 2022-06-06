@@ -5,7 +5,6 @@ import { verifyTokenMiddleware } from "../middleware/verifyTokenMiddleware"
 import { ClientsRepository } from '../repositories/clientsRepository'
 import { InvoiceData, InvoicesRepository } from '../repositories/invoicesRepository'
 import { UsersRepository } from '../repositories/usersRepository'
-import { copyFileSync } from 'fs'
 
 export const mainRoutes = (app: Express ) => {
 
