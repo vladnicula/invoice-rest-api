@@ -58,5 +58,17 @@
             "address": "Home"
         },
         "id": "1644502347235"
+    },
+    {
+        "user_id": "111",
+        "email": "testclient@test.com",
+        "name": "Vlad text",
+        "companyDetails": {
+            "name": "Apple",
+            "vatNumber": "1321323",
+            "regNumber": "1312342142123",
+            "address": "Copertino"
+        },
+        "id": "2a1dd74d-99ab-4a22-a8de-3654125c76f7"
     }
 ]
