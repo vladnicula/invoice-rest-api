@@ -8,6 +8,7 @@ import { ClientInvoicesRepoAggregate } from './repositories/clientInvoicesRepoAg
 import { ClientsRepository } from './repositories/clientsRepository'
 import { InvoicesRepository } from './repositories/invoicesRepository'
 import { UsersRepository } from "./repositories/usersRepository"
+import { graphQLRoute } from "./graphql/main"
 
 
 // export needed for unit/integration testing
@@ -27,6 +28,7 @@ app.use(express.json())
 
 authRoutes(app)
 mainRoutes(app)
+graphQLRoute(app)
 
 export const setup = async () => {
     const invoiceRepo = await InvoicesRepository.getInstance();
