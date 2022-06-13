@@ -60,15 +60,27 @@
         "id": "1644502347235"
     },
     {
-        "user_id": "111",
-        "email": "testclient@test.com",
-        "name": "Vlad text",
+        "user_id": "555",
+        "email": "apple@test.com",
+        "name": "Tim Cook",
         "companyDetails": {
             "name": "Apple",
-            "vatNumber": "1321323",
-            "regNumber": "1312342142123",
-            "address": "Copertino"
+            "vatNumber": "AP1321323",
+            "regNumber": "AP1312342142123",
+            "address": "Cupertino"
         },
-        "id": "2a1dd74d-99ab-4a22-a8de-3654125c76f7"
+        "id": "ap123456"
+    },
+    {
+        "user_id": "555",
+        "email": "microsoft@test.com",
+        "name": "Satya Nadella",
+        "companyDetails": {
+            "name": "Microsoft",
+            "vatNumber": "MS1321323",
+            "regNumber": "MS1312342142123",
+            "address": "Cupertino"
+        },
+        "id": "ms123456"
     }
 ]
