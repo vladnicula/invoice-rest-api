@@ -58,5 +58,29 @@
             "address": "Home"
         },
         "id": "1644502347235"
+    },
+    {
+        "user_id": "555",
+        "email": "apple@test.com",
+        "name": "Tim Cook",
+        "companyDetails": {
+            "name": "Apple",
+            "vatNumber": "AP1321323",
+            "regNumber": "AP1312342142123",
+            "address": "Cupertino"
+        },
+        "id": "ap123456"
+    },
+    {
+        "user_id": "555",
+        "email": "microsoft@test.com",
+        "name": "Satya Nadella",
+        "companyDetails": {
+            "name": "Microsoft",
+            "vatNumber": "MS1321323",
+            "regNumber": "MS1312342142123",
+            "address": "Cupertino"
+        },
+        "id": "ms123456"
     }
 ]

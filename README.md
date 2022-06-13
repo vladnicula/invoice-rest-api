@@ -26,6 +26,11 @@ We are using typescript, so we need to bundle the code first and then run it.
 npm run build && npm run start
 ```
 
+If you want to have access to `/graphql` for debugging and query/mutation building,
+start the server with `npm run build && DEBUG_GRAPH_QL=true npm run start`. Otherwise
+you won't be able to pass a auth token the graphql layer. When `DEBUG_GRAPH_QL=true` 
+there will be no token check. All resolvers should default to `111` user id.
+
 ## Running tests
 
 All endpoints and operations are tested. To run the tests you can:

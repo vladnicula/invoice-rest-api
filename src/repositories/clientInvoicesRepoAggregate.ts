@@ -142,7 +142,7 @@ export class ClientInvoicesRepoAggregate {
     }
 
 
-    async getClients(params: { userId: string; filter: InvoiceListingFilterByArgs; sort: ClientListingSortingByArgs; offset?: number, limit?: number }) {
+    async getClients(params: { userId: string; filter?: InvoiceListingFilterByArgs; sort: ClientListingSortingByArgs; offset?: number, limit?: number }) {
         const { filter = {}, sort = {}, userId, offset = 0, limit = 20 } = params;
         const allClients = await this.clientsRepo.getByUserId(userId)
         const allInvoices = await this.invoicesRepo.getByUserId(userId)

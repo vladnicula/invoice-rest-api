@@ -183,7 +183,7 @@ export const mainRoutes = (app: Express ) => {
      })
 
      app.get('/reset', (req, res) => {
-        console.log("reseting api data")
+        // console.log("reseting api data")
         const currentPath = path.resolve(__dirname, '../../scripts/reset-service')
         const { run } = require(currentPath)  
         const pathToFixtures = `${process.env.PATH_TO_JSON_DIR}/fixtures`;

@@ -7,5 +7,392 @@
         "dueDate": 1647084351880,
         "value": 1234,
         "id": "1644492391138"
+    },
+    {
+        "id": "ms1",
+        "user_id": "555",
+        "client_id": "ms123456",
+        "invoice_number": "1234-ms-1",
+        "date": 1650778243995,
+        "dueDate": 1653370243995,
+        "value": 7603
+    },
+    {
+        "id": "ms2",
+        "user_id": "555",
+        "client_id": "ms123456",
+        "invoice_number": "1234-ms-2",
+        "date": 1650864643995,
+        "dueDate": 1653456643995,
+        "value": 5340
+    },
+    {
+        "id": "ms3",
+        "user_id": "555",
+        "client_id": "ms123456",
+        "invoice_number": "1234-ms-3",
+        "date": 1650951043995,
+        "dueDate": 1653543043995,
+        "value": 5000
+    },
+    {
+        "id": "ms4",
+        "user_id": "555",
+        "client_id": "ms123456",
+        "invoice_number": "1234-ms-4",
+        "date": 1651037443995,
+        "dueDate": 1653629443995,
+        "value": 6025
+    },
+    {
+        "id": "ms5",
+        "user_id": "555",
+        "client_id": "ms123456",
+        "invoice_number": "1234-ms-5",
+        "date": 1651123843995,
+        "dueDate": 1653715843995,
+        "value": 4243
+    },
+    {
+        "id": "ms6",
+        "user_id": "555",
+        "client_id": "ms123456",
+        "invoice_number": "1234-ms-6",
+        "date": 1651210243995,
+        "dueDate": 1653802243995,
+        "value": 4448
+    },
+    {
+        "id": "ms7",
+        "user_id": "555",
+        "client_id": "ms123456",
+        "invoice_number": "1234-ms-7",
+        "date": 1651296643995,
+        "dueDate": 1653888643995,
+        "value": 4413
+    },
+    {
+        "id": "ms8",
+        "user_id": "555",
+        "client_id": "ms123456",
+        "invoice_number": "1234-ms-8",
+        "date": 1651383043995,
+        "dueDate": 1653975043995,
+        "value": 4793
+    },
+    {
+        "id": "ms9",
+        "user_id": "555",
+        "client_id": "ms123456",
+        "invoice_number": "1234-ms-9",
+        "date": 1651469443995,
+        "dueDate": 1654061443995,
+        "value": 4770
+    },
+    {
+        "id": "ms10",
+        "user_id": "555",
+        "client_id": "ms123456",
+        "invoice_number": "1234-ms-10",
+        "date": 1651555843995,
+        "dueDate": 1654147843995,
+        "value": 4008
+    },
+    {
+        "id": "ms11",
+        "user_id": "555",
+        "client_id": "ms123456",
+        "invoice_number": "1234-ms-11",
+        "date": 1651642243995,
+        "dueDate": 1654234243995,
+        "value": 7761
+    },
+    {
+        "id": "ms12",
+        "user_id": "555",
+        "client_id": "ms123456",
+        "invoice_number": "1234-ms-12",
+        "date": 1651728643995,
+        "dueDate": 1654320643995,
+        "value": 4291
+    },
+    {
+        "id": "ms13",
+        "user_id": "555",
+        "client_id": "ms123456",
+        "invoice_number": "1234-ms-13",
+        "date": 1651815043995,
+        "dueDate": 1654407043995,
+        "value": 4292
+    },
+    {
+        "id": "ms14",
+        "user_id": "555",
+        "client_id": "ms123456",
+        "invoice_number": "1234-ms-14",
+        "date": 1651901443995,
+        "dueDate": 1654493443995,
+        "value": 4433
+    },
+    {
+        "id": "ms15",
+        "user_id": "555",
+        "client_id": "ms123456",
+        "invoice_number": "1234-ms-15",
+        "date": 1651987843995,
+        "dueDate": 1654579843995,
+        "value": 4485
+    },
+    {
+        "id": "ms16",
+        "user_id": "555",
+        "client_id": "ms123456",
+        "invoice_number": "1234-ms-16",
+        "date": 1652074243995,
+        "dueDate": 1654666243995,
+        "value": 5388
+    },
+    {
+        "id": "ms17",
+        "user_id": "555",
+        "client_id": "ms123456",
+        "invoice_number": "1234-ms-17",
+        "date": 1652160643995,
+        "dueDate": 1654752643995,
+        "value": 5327
+    },
+    {
+        "id": "ms18",
+        "user_id": "555",
+        "client_id": "ms123456",
+        "invoice_number": "1234-ms-18",
+        "date": 1652247043995,
+        "dueDate": 1654839043995,
+        "value": 7670
+    },
+    {
+        "id": "ms19",
+        "user_id": "555",
+        "client_id": "ms123456",
+        "invoice_number": "1234-ms-19",
+        "date": 1652333443995,
+        "dueDate": 1654925443995,
+        "value": 5439
+    },
+    {
+        "id": "ms20",
+        "user_id": "555",
+        "client_id": "ms123456",
+        "invoice_number": "1234-ms-20",
+        "date": 1652419843995,
+        "dueDate": 1655011843995,
+        "value": 6069
+    },
+    {
+        "id": "ap1",
+        "user_id": "555",
+        "client_id": "ap123456",
+        "invoice_number": "1234-ap-1",
+        "date": 1650778287691,
+        "dueDate": 1653370287691,
+        "value": 5019
+    },
+    {
+        "id": "ap2",
+        "user_id": "555",
+        "client_id": "ap123456",
+        "invoice_number": "1234-ap-2",
+        "date": 1650864687691,
+        "dueDate": 1653456687691,
+        "value": 5149
+    },
+    {
+        "id": "ap3",
+        "user_id": "555",
+        "client_id": "ap123456",
+        "invoice_number": "1234-ap-3",
+        "date": 1650951087691,
+        "dueDate": 1653543087691,
+        "value": 4944
+    },
+    {
+        "id": "ap4",
+        "user_id": "555",
+        "client_id": "ap123456",
+        "invoice_number": "1234-ap-4",
+        "date": 1651037487691,
+        "dueDate": 1653629487691,
+        "value": 7231
+    },
+    {
+        "id": "ap5",
+        "user_id": "555",
+        "client_id": "ap123456",
+        "invoice_number": "1234-ap-5",
+        "date": 1651123887691,
+        "dueDate": 1653715887691,
+        "value": 7464
+    },
+    {
+        "id": "ap6",
+        "user_id": "555",
+        "client_id": "ap123456",
+        "invoice_number": "1234-ap-6",
+        "date": 1651210287691,
+        "dueDate": 1653802287691,
+        "value": 6179
+    },
+    {
+        "id": "ap7",
+        "user_id": "555",
+        "client_id": "ap123456",
+        "invoice_number": "1234-ap-7",
+        "date": 1651296687691,
+        "dueDate": 1653888687691,
+        "value": 8108
+    },
+    {
+        "id": "ap8",
+        "user_id": "555",
+        "client_id": "ap123456",
+        "invoice_number": "1234-ap-8",
+        "date": 1651383087691,
+        "dueDate": 1653975087691,
+        "value": 6251
+    },
+    {
+        "id": "ap9",
+        "user_id": "555",
+        "client_id": "ap123456",
+        "invoice_number": "1234-ap-9",
+        "date": 1651469487691,
+        "dueDate": 1654061487691,
+        "value": 7132
+    },
+    {
+        "id": "ap10",
+        "user_id": "555",
+        "client_id": "ap123456",
+        "invoice_number": "1234-ap-10",
+        "date": 1651555887691,
+        "dueDate": 1654147887691,
+        "value": 5701
+    },
+    {
+        "id": "ap11",
+        "user_id": "555",
+        "client_id": "ap123456",
+        "invoice_number": "1234-ap-11",
+        "date": 1651642287691,
+        "dueDate": 1654234287691,
+        "value": 6806
+    },
+    {
+        "id": "ap12",
+        "user_id": "555",
+        "client_id": "ap123456",
+        "invoice_number": "1234-ap-12",
+        "date": 1651728687691,
+        "dueDate": 1654320687691,
+        "value": 6784
+    },
+    {
+        "id": "ap13",
+        "user_id": "555",
+        "client_id": "ap123456",
+        "invoice_number": "1234-ap-13",
+        "date": 1651815087691,
+        "dueDate": 1654407087691,
+        "value": 6664
+    },
+    {
+        "id": "ap14",
+        "user_id": "555",
+        "client_id": "ap123456",
+        "invoice_number": "1234-ap-14",
+        "date": 1651901487691,
+        "dueDate": 1654493487691,
+        "value": 4742
+    },
+    {
+        "id": "ap15",
+        "user_id": "555",
+        "client_id": "ap123456",
+        "invoice_number": "1234-ap-15",
+        "date": 1651987887691,
+        "dueDate": 1654579887691,
+        "value": 7022
+    },
+    {
+        "id": "ap16",
+        "user_id": "555",
+        "client_id": "ap123456",
+        "invoice_number": "1234-ap-16",
+        "date": 1652074287691,
+        "dueDate": 1654666287691,
+        "value": 4751
+    },
+    {
+        "id": "ap17",
+        "user_id": "555",
+        "client_id": "ap123456",
+        "invoice_number": "1234-ap-17",
+        "date": 1652160687691,
+        "dueDate": 1654752687691,
+        "value": 6047
+    },
+    {
+        "id": "ap18",
+        "user_id": "555",
+        "client_id": "ap123456",
+        "invoice_number": "1234-ap-18",
+        "date": 1652247087691,
+        "dueDate": 1654839087691,
+        "value": 5866
+    },
+    {
+        "id": "ap19",
+        "user_id": "555",
+        "client_id": "ap123456",
+        "invoice_number": "1234-ap-19",
+        "date": 1652333487691,
+        "dueDate": 1654925487691,
+        "value": 5165
+    },
+    {
+        "id": "ap20",
+        "user_id": "555",
+        "client_id": "ap123456",
+        "invoice_number": "1234-ap-20",
+        "date": 1652419887691,
+        "dueDate": 1655011887691,
+        "value": 8028
+    },
+    {
+        "id": "ap21",
+        "user_id": "555",
+        "client_id": "ap123456",
+        "invoice_number": "1234-ap-21",
+        "date": 1652506287691,
+        "dueDate": 1655098287691,
+        "value": 6288
+    },
+    {
+        "id": "ap22",
+        "user_id": "555",
+        "client_id": "ap123456",
+        "invoice_number": "1234-ap-22",
+        "date": 1652592687691,
+        "dueDate": 1655184687691,
+        "value": 5018
+    },
+    {
+        "id": "ap23",
+        "user_id": "555",
+        "client_id": "ap123456",
+        "invoice_number": "1234-ap-23",
+        "date": 1652679087691,
+        "dueDate": 1655271087691,
+        "value": 8025
     }
 ]
