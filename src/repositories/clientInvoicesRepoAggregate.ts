@@ -174,7 +174,7 @@ export class ClientInvoicesRepoAggregate {
 
         let sortedResults = filteredResults;
         if ( Object.keys(sort).length ) {
-        if ( sort.creation === 'desc' ) {
+            if ( sort.creation === 'desc' ) {
                 sortedResults = sortedResults.reverse();
             }
             if ( sort.clientName ) {

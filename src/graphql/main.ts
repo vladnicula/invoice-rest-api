@@ -9,6 +9,7 @@ import {
     GraphQLList,
     GraphQLFloat,
     GraphQLInputObjectType,
+    GraphQLEnumType,
 } from 'graphql'
 import { ClientsRepository } from '../repositories/clientsRepository'
 import { verifyTokenMiddleware } from '../middleware/verifyTokenMiddleware'
@@ -35,6 +36,7 @@ export const graphQLRoute = (app: Express) => {
             name: { type: GraphQLString },
             companyDetails: { type: ClientCompanyDetailsSchema },
             totalBilled: { type: GraphQLFloat },
+            invoicesCount: { type: GraphQLFloat },
             invoices: {
                 type: new GraphQLList(InvoiceSchema)
             }
@@ -65,12 +67,27 @@ export const graphQLRoute = (app: Express) => {
         }),
     })
 
+    const sortEnum = new GraphQLEnumType({
+        name: "SortOrder",
+        description: "In which order to sort a given key",
+        values: {
+            asc: {
+                description: "Sort in ascending order",
+            },
+            desc: {
+                description: "Sort in descending order"
+            }
+        }
+    })
+
     const ClientListSortSchema = new GraphQLInputObjectType({
         name: "ClientListSortSchema",
         fields: () => ({
-            creation: { type: GraphQLString },
-            totalBilled: { type: GraphQLString },
-            email: { type: GraphQLString },
+            creation: { type: sortEnum },
+            totalBilled: { type: sortEnum },
+            clientName: { type: sortEnum },
+            companyName: { type: sortEnum },
+            invoicesCount: { type: sortEnum }
         }),
     })
 
