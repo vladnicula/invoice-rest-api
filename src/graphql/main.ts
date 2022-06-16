@@ -29,10 +29,12 @@ export const graphQLRoute = (app: Express) => {
     const ClientSchema = new GraphQLObjectType({
         name: "Client",
         fields: () => ({
+            id: { type: GraphQLString },
             user_id: { type: GraphQLString },
             email: { type: GraphQLString },
             name: { type: GraphQLString },
             companyDetails: { type: ClientCompanyDetailsSchema },
+            totalBilled: { type: GraphQLFloat },
             invoices: {
                 type: new GraphQLList(InvoiceSchema)
             }
@@ -43,7 +45,7 @@ export const graphQLRoute = (app: Express) => {
         name: "ClientList",
         fields: () => ({
             results: {
-                type: new GraphQLList(ClientSchema)
+                type: new GraphQLList(ClientSchema),
             },
             total: {
                 type: GraphQLInt
@@ -66,7 +68,9 @@ export const graphQLRoute = (app: Express) => {
     const ClientListSortSchema = new GraphQLInputObjectType({
         name: "ClientListSortSchema",
         fields: () => ({
-            creation: { type: GraphQLString }
+            creation: { type: GraphQLString },
+            totalBilled: { type: GraphQLString },
+            email: { type: GraphQLString },
         }),
     })
 
@@ -95,7 +99,7 @@ export const graphQLRoute = (app: Express) => {
                 },
                 resolve: async (parent, args, {req}) => {
                     const clientsRepo = app.get("clientsRepo") as ClientsRepository
-                    const userId = (req as any)?.user?.user_id as string ?? "111";
+                    const userId = (req as any)?.user?.user_id as string ?? "555";
                     const clientById = await clientsRepo.getById(req.body.id)
 
                     // console.log("args", args)
@@ -137,7 +141,7 @@ export const graphQLRoute = (app: Express) => {
                 async resolve (parent, args, {req}, info) {
                     const invoiceAggregate = app.get("invoiceClientAggregate") as ClientInvoicesRepoAggregate
                     const { sort, offset, limit } = args
-                    const userId = (req as any)?.user?.user_id ?? "111";
+                    const userId = (req as any)?.user?.user_id ?? "555";
                     const { result: results, total } = await invoiceAggregate.getClients({
                         userId, sort, offset, limit
                     })
