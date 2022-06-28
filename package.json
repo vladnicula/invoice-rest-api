@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "npx tsc",
-    "start": "node .",
+    "start": "npm run build && DEBUG_GRAPH_QL=true node .",
     "test": "cross-env ENVIRONMENT=test jest",
     "reset-dev-db": "cross-env PATH_TO_JSON_DIR=./fake-database node ./scripts/reset-dev-db"
   },
