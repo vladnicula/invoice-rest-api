@@ -1,4 +1,6 @@
 import express from "express"
+import path from 'path'
+import fs from 'fs'
 import cors from 'cors'
 import { authRoutes } from "./routes/auth"
 import { mainRoutes } from "./routes/main"
@@ -31,6 +33,15 @@ mainRoutes(app)
 graphQLRoute(app)
 
 export const setup = async () => {
+
+    const dir = path.resolve(path.join(__dirname, '../public'))
+    if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir);
+    }
+
+    const publicPath = path.resolve(__dirname, '../public')
+    app.use('/public', express.static(publicPath))
+
     const invoiceRepo = await InvoicesRepository.getInstance();
     app.set("invoicesRepo", invoiceRepo);
     const invoiceClientAggregate = await ClientInvoicesRepoAggregate.getInstance();

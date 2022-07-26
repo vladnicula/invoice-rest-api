@@ -7,6 +7,7 @@ type UserData = {
     name: string
     email: string
     password: string
+    avatar?: string
     companyDetails?: CompanyDetails
 };
 
@@ -52,5 +53,19 @@ export class UsersRepository extends BaseRepository<UserData> {
             companyDetails
         })
         return existingUser;
+    }
+
+    async setUserProfile (id: string, filePath: string) {
+        const existingUser =  await this.getById(id);
+        if ( !existingUser ) {
+            throw new Error('User avatar update failed because user is not found')
+        }
+
+        this.update({
+            ...existingUser,
+            avatar: filePath
+        })
+
+        return existingUser
     }
 }
