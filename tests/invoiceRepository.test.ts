@@ -10,6 +10,7 @@ beforeAll(async () => {
 it("Adds invoice to repository", async () => {
     const newInvoice = await repo.add({
         invoice_number: "1234",
+        createdAt: new Date().getTime(),
         user_id: "123",
         client_id: "123",
         date: new Date().getTime(),
@@ -25,6 +26,7 @@ it("Add invoice with permisive meta field that can be used for invoice items", a
     const newInvoice = await repo.add({
         invoice_number: "newInvoiceNumberWithCustomMetaContent",
         user_id: "123",
+        createdAt: new Date().getTime(),
         client_id: "123",
         projectCode: "#Toptal2022EnterpriseClient",
         date: new Date().getTime(),
@@ -36,13 +38,14 @@ it("Add invoice with permisive meta field that can be used for invoice items", a
     })
 
     expect(await repo.getById(newInvoice.id)).toBeTruthy();
-    expect((await repo.getById(newInvoice.id)).meta).toHaveProperty("someKeyThatCanContainWhateverWeWant", "anything");
+    expect((await repo.getById(newInvoice.id))!.meta).toHaveProperty("someKeyThatCanContainWhateverWeWant", "anything");
 })
 
 it("Does not add invoice if same client and invoice number already exists", async () => {
     const newInvoice = await repo.add({
         invoice_number: "12345",
         user_id: "123",
+        createdAt: new Date().getTime(),
         client_id: "123",
         date: new Date().getTime(),
         projectCode: "#Toptal2022EnterpriseClient",
@@ -59,6 +62,7 @@ it("Does not add invoice if same client and invoice number already exists", asyn
         await repo.add({
             invoice_number: "12345",
             user_id: "123",
+            createdAt: new Date().getTime(),
             client_id: "123",
             projectCode: "#Toptal2022EnterpriseClient",
             date: new Date().getTime(),

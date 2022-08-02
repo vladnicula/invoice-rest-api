@@ -101,5 +101,5 @@ it("Can update user company details", async () => {
 
     const userWithUpdatedDetails = await repo.getById(result.id)
 
-    expect(userWithUpdatedDetails.companyDetails).toEqual(companyDetails)
+    expect(userWithUpdatedDetails!.companyDetails).toEqual(companyDetails)
 });

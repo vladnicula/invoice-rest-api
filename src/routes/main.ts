@@ -16,15 +16,15 @@ export const mainRoutes = (app: Express ) => {
 
     app.get("/invoices", verifyTokenMiddleware, async (req, res) => {
         try {
-            const { params = "{}" } = req.query as Record<string, any>;
-            const queryParams = JSON.parse(params)
-
-            const { filter, sort, offset, limit } = queryParams
+            const {
+                clientId, startDueDate, endDueDate, startDate, endDate, projectCode,
+                sort, sortBy, offset, limit 
+            } = req.query as Record<string, any>;
 
             const invoiceAggregate = app.get("invoiceClientAggregate") as ClientInvoicesRepoAggregate
             const userId = (req as any).user.user_id;
             const { result, total } = await invoiceAggregate.getInvoices({
-                userId, filter, sort, offset, limit
+                userId, sortBy, sort, offset, limit, clientId, startDueDate, endDueDate, startDate, endDate, projectCode
             })
             return res.json({invoices: result, total })
         } catch (err) {
@@ -86,13 +86,10 @@ export const mainRoutes = (app: Express ) => {
     app.get("/clients", verifyTokenMiddleware, async (req, res) => {
         const invoiceAggregate = app.get("invoiceClientAggregate") as ClientInvoicesRepoAggregate
         try {
-            const { params = "{}" } = req.query as Record<string, any>;
-            const queryParams = JSON.parse(params)
-            const { filter, sort, offset, limit } = queryParams
-
+            const { sort, sortBy, offset, limit } = req.query as Record<string, any>;
             const userId = (req as any).user.user_id;
             const { result, total } = await invoiceAggregate.getClients({
-                userId, filter, sort, offset, limit
+                userId, sort, sortBy, offset, limit
             })
             setTimeout(() => {
                 res.json({clients: result, total})

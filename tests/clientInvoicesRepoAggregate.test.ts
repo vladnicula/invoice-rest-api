@@ -22,6 +22,7 @@ beforeAll(async () => {
         name: "Client 1",
         user_id: targetUserId,
         email: "client1@gmail.com",
+        createdAt: new Date().getTime(),
         companyDetails: {
             name: "Acme",
             address: "Home",
@@ -37,6 +38,7 @@ beforeAll(async () => {
     const client2 = await clientsRepo.add({
         name: "Client 2",
         user_id: targetUserId,
+        createdAt: new Date().getTime(),
         email: "client2@gmail.com",
         companyDetails: {
             name: "Incorporated",
@@ -52,6 +54,7 @@ beforeAll(async () => {
     const firstInvoice = await invoiceRepo.add({
         invoice_number: "FirstInvoiceByTime",
         user_id: targetUserId,
+        createdAt: new Date().getTime(),
         client_id: client1.id,
         projectCode: "test",
         date: 1000,
@@ -62,6 +65,7 @@ beforeAll(async () => {
     const secondInvoice = await invoiceRepo.add({
         invoice_number: "SecondInvoiceByTime",
         user_id: targetUserId,
+        createdAt: new Date().getTime(),
         client_id: client1.id,
         projectCode: "test",
         date: 5000,
@@ -72,6 +76,7 @@ beforeAll(async () => {
     const thirdInvoice = await invoiceRepo.add({
         invoice_number: "ThirdInvoiceByTime",
         user_id: targetUserId,
+        createdAt: new Date().getTime(),
         client_id: client2.id,
         projectCode: "test",
         date: 7500,
@@ -83,6 +88,7 @@ beforeAll(async () => {
     const latestInvoice = await invoiceRepo.add({
         invoice_number: "LatestInvoiceByTime",
         user_id: targetUserId,
+        createdAt: new Date().getTime(),
         client_id: client1.id,
         projectCode: "test",
         date: 10000,
@@ -95,9 +101,8 @@ it("Gets invoices by user id sorted by creation date DESC", async () => {
 
     const response = await aggregated.getInvoices({
         userId: targetUserId,
-        sort: {
-            date: "desc"
-        }
+        sortBy: 'date',
+        sort: "desc"
     });
 
     expect(response.result).toHaveLength(4)
@@ -109,9 +114,8 @@ it("Gets invoices by user id sorted by company name ASC", async () => {
 
     const response = await aggregated.getInvoices({
         userId: targetUserId,
-        sort: {
-            companyName: "asc"
-        }
+        sortBy: 'companyName',
+        sort: "asc"
     })
 
     expect(response.result).toHaveLength(4)
@@ -122,9 +126,7 @@ it("Gets invoices by user id sorted by company name ASC", async () => {
 it("Gets invoices by user id filtered by company name", async () => {
     const response = await aggregated.getInvoices({
         userId: targetUserId,
-        filter: {
-            clientId:  client2Model.id
-        }
+        clientId: client2Model.id
     })
 
     expect(response.result).toHaveLength(1)
@@ -134,15 +136,10 @@ it("Gets invoices by user id filtered by company name", async () => {
 it("Gets invoices by user id filterd by date, sorted by price DESC", async () => {
     const response = await aggregated.getInvoices({
         userId: targetUserId,
-        sort: {
-            price: "desc"
-        },
-        filter: {
-            date:  {
-                start: 5000,
-                end: 7501
-            }
-        }
+        sortBy: "price",
+        sort: "desc",
+        startDate: 5000,
+        endDate: 7501
     })
 
     expect(response.result).toHaveLength(2)
@@ -157,9 +154,8 @@ it("Gets invoices by user id filterd by date, sorted by price DESC", async () =>
 it("Gets invoices by user id sorted by due date ASC", async () => {
     const response = await aggregated.getInvoices({
         userId: targetUserId,
-        sort: {
-            dueDate: "asc"
-        }
+        sortBy: "dueDate",
+        sort: "asc"
     })
 
     expect(response.result).toHaveLength(4)
@@ -171,14 +167,9 @@ it("Gets invoices by user id sorted by due date ASC", async () => {
 it("Gets invoices by user id where due date is less than a specific value", async () => {
     const response = await aggregated.getInvoices({
         userId: targetUserId,
-        sort: {
-            dueDate: "asc"
-        },
-        filter: {
-            dueDate: {
-                end: 200000
-            }
-        }
+        sortBy: "dueDate",
+        sort: "asc",
+        endDueDate: 200000
     })
 
     expect(response.result).toHaveLength(3)

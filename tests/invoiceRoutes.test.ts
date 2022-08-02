@@ -4,6 +4,7 @@ import * as supertest from 'supertest'
 import { ClientsRepository, ClientData } from '../src/repositories/clientsRepository'
 import { InvoicesRepository } from '../src/repositories/invoicesRepository'
 import { UsersRepository } from '../src/repositories/usersRepository';
+import { GetInvoiceParams } from '../src/repositories/clientInvoicesRepoAggregate';
 
 // Setup for invoices used for api testing
 let invoiceRepo: InvoicesRepository;
@@ -18,6 +19,8 @@ const TEST_USER_ID = '1111111'
 let client1Model: ClientData
 let client2Model: ClientData
 
+type InvoicesQueryParams = Omit<GetInvoiceParams, 'userId'>
+
 beforeAll(async () => {
     await setup();
     
@@ -31,6 +34,7 @@ beforeAll(async () => {
     const client1 = await clientsRepo.add({
         name: "Client 1",
         user_id: TEST_USER_ID,
+        createdAt: new Date().getTime(),
         email: "client1@gmail.com",
         companyDetails: {
             name: "Acme",
@@ -47,6 +51,7 @@ beforeAll(async () => {
     const client2 = await clientsRepo.add({
         name: "Client 2",
         user_id: TEST_USER_ID,
+        createdAt: new Date().getTime(),
         email: "client2@gmail.com",
         companyDetails: {
             name: "Incorporated",
@@ -62,6 +67,7 @@ beforeAll(async () => {
     const firstInvoice = await invoiceRepo.add({
         invoice_number: "FirstInvoiceByTime",
         user_id: TEST_USER_ID,
+        createdAt: new Date().getTime(),
         client_id: client1.id,
         projectCode: "#Toptal2022EnterpriseClient",
         date: 1000,
@@ -75,6 +81,7 @@ beforeAll(async () => {
     const secondInvoice = await invoiceRepo.add({
         invoice_number: "SecondInvoiceByTime",
         user_id: TEST_USER_ID,
+        createdAt: new Date().getTime(),
         client_id: client1.id,
         projectCode: "#Toptal2022EnterpriseClient",
         date: 5000,
@@ -85,6 +92,7 @@ beforeAll(async () => {
     const thirdInvoice = await invoiceRepo.add({
         invoice_number: "ThirdInvoiceByTime",
         user_id: TEST_USER_ID,
+        createdAt: new Date().getTime(),
         client_id: client2.id,
         projectCode: "#Toptal2022EnterpriseClient",
         date: 7500,
@@ -95,6 +103,7 @@ beforeAll(async () => {
     const latestInvoice = await invoiceRepo.add({
         invoice_number: "LatestInvoiceByTime",
         user_id: TEST_USER_ID,
+        createdAt: new Date().getTime(),
         client_id: client1.id,
         projectCode: "#Toptal2022EnterpriseClient",
         date: 10000,
@@ -104,14 +113,14 @@ beforeAll(async () => {
 })
 
 it('Rejects access when not logged in', async () => {
-    const requestAgent = supertest.agent(app, null)
+    const requestAgent = supertest.agent(app)
 
     expect((await requestAgent.get('/invoices')).status).toBe(403)
 })
 
 it('Gets a list of latest invoices when no params specified', async () => {
     
-    const requestAgent = supertest.agent(app, null)
+    const requestAgent = supertest.agent(app)
 
     const response = await requestAgent
         .post('/login')
@@ -127,123 +136,103 @@ it('Gets a list of latest invoices when no params specified', async () => {
 })
 
 it('Gets list by client id', async () => {
-    const requestAgent = supertest.agent(app, null)
+    const requestAgent = supertest.agent(app)
 
     const response = await requestAgent
         .post('/login')
         .set('Content-Type', 'application/json')
         .send({ email: TEST_USER_EMAIL, password: TEST_USER_PASS })
 
-    const queryParams = {
-        filter: {
-            clientId: client2Model.id
-        }
+
+    const queryParams: InvoicesQueryParams = {
+        clientId: client2Model.id
     }
+     
+    const invoicesResponse = await requestAgent.get(`/invoices?${new URLSearchParams(queryParams as Record<string, string>).toString()}`)
+         .set("x-access-token", response.body.token)
 
-    const encodeParamsString = encodeURIComponent(JSON.stringify(queryParams));
-
-
-    const invoicesResponse = await requestAgent.get(`/invoices?params=${encodeParamsString}`)
-        .set("x-access-token", response.body.token)
     expect(invoicesResponse.status).toBe(200)
     expect(invoicesResponse.body.invoices).toHaveLength(1)
 })
 
 it('Gets list by client id, paginiated using limit and offset', async () => {
-    const requestAgent = supertest.agent(app, null)
+    const requestAgent = supertest.agent(app)
 
     const response = await requestAgent
         .post('/login')
         .set('Content-Type', 'application/json')
         .send({ email: TEST_USER_EMAIL, password: TEST_USER_PASS })
 
-    const queryParams = {
-        filter: {
-            clientId: client1Model.id
-        },
+    const queryParams: InvoicesQueryParams = {
+        clientId: client1Model.id,
         limit: 2,
         offset: 0
     }
+     
+    const invoicesResponse = await requestAgent.get(`/invoices?${new URLSearchParams(queryParams as Record<string, string>).toString()}`)
+         .set("x-access-token", response.body.token)
 
-    const encodeParamsString = encodeURIComponent(JSON.stringify(queryParams));
-
-
-    const invoicesResponse = await requestAgent.get(`/invoices?params=${encodeParamsString}`)
-        .set("x-access-token", response.body.token)
     expect(invoicesResponse.status).toBe(200)
     expect(invoicesResponse.body.invoices).toHaveLength(2)
 })
 
 
 it('Limit larger than full result set does not break query', async () => {
-    const requestAgent = supertest.agent(app, null)
+    const requestAgent = supertest.agent(app)
 
     const response = await requestAgent
         .post('/login')
         .set('Content-Type', 'application/json')
         .send({ email: TEST_USER_EMAIL, password: TEST_USER_PASS })
 
-    const queryParams = {
-        filter: {
-            clientId: client2Model.id
-        },
+    const queryParams: InvoicesQueryParams = {
+        clientId: client2Model.id,
         limit: 30,
     }
+     
+    const invoicesResponse = await requestAgent.get(`/invoices?${new URLSearchParams(queryParams as Record<string, string>).toString()}`)
+         .set("x-access-token", response.body.token)
 
-    const encodeParamsString = encodeURIComponent(JSON.stringify(queryParams));
-
-
-    const invoicesResponse = await requestAgent.get(`/invoices?params=${encodeParamsString}`)
-        .set("x-access-token", response.body.token)
     expect(invoicesResponse.status).toBe(200)
     expect(invoicesResponse.body.invoices).toHaveLength(1)
 })
 
 it('Offset larger than full result set does not break query', async () => {
-    const requestAgent = supertest.agent(app, null)
+    const requestAgent = supertest.agent(app)
 
     const response = await requestAgent
         .post('/login')
         .set('Content-Type', 'application/json')
         .send({ email: TEST_USER_EMAIL, password: TEST_USER_PASS })
 
-    const queryParams = {
-        filter: {
-            clientId: client2Model.id
-        },
+    const queryParams: InvoicesQueryParams = {
+        clientId: client2Model.id,
         offset: 30,
     }
+     
+    const invoicesResponse = await requestAgent.get(`/invoices?${new URLSearchParams(queryParams as Record<string, string>).toString()}`)
+         .set("x-access-token", response.body.token)
 
-    const encodeParamsString = encodeURIComponent(JSON.stringify(queryParams));
-
-
-    const invoicesResponse = await requestAgent.get(`/invoices?params=${encodeParamsString}`)
-        .set("x-access-token", response.body.token)
     expect(invoicesResponse.status).toBe(200)
     expect(invoicesResponse.body.invoices).toHaveLength(0)
 })
 
 it('Gets list by client id, sorted by price, desc', async () => {
-    const requestAgent = supertest.agent(app, null)
+    const requestAgent = supertest.agent(app)
 
     const response = await requestAgent
         .post('/login')
         .set('Content-Type', 'application/json')
         .send({ email: TEST_USER_EMAIL, password: TEST_USER_PASS })
 
-    const queryParams = {
-        sort: {
-            price: 'desc',
-        },
-        filter: {
-            clientId: client1Model.id
-        }
+    const queryParams: InvoicesQueryParams = {
+        clientId: client1Model.id,
+        sortBy: "price",
+        sort: "desc"
     }
-
-    const encodeParamsString = encodeURIComponent(JSON.stringify(queryParams));
-
-    const invoicesResponse = await requestAgent.get(`/invoices?params=${encodeParamsString}`)
-        .set("x-access-token", response.body.token)
+     
+    const invoicesResponse = await requestAgent.get(`/invoices?${new URLSearchParams(queryParams as Record<string, string>).toString()}`)
+         .set("x-access-token", response.body.token)
 
     expect(invoicesResponse.status).toBe(200)
     expect(invoicesResponse.body.invoices).toHaveLength(3)
@@ -254,7 +243,7 @@ it("Adds an invoice", async () => {
 
     const creationDate = new Date().getTime();
 
-    const requestAgent = supertest.agent(app, null)
+    const requestAgent = supertest.agent(app)
 
     const response = await requestAgent
         .post('/login')
@@ -303,7 +292,7 @@ it("Updates an invoice", async () => {
     // login and create an invoice
     const creationDate = new Date().getTime();
 
-    const requestAgent = supertest.agent(app, null)
+    const requestAgent = supertest.agent(app)
 
     const response = await requestAgent
         .post('/login')

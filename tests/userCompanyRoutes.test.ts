@@ -12,7 +12,7 @@ it('Can get account details for logged in user, even if null', async () => {
     const TEST_USER_EMAIL = `tarzan@jungle.com`;
     const TEST_USER_PASS = `123456`;
 
-    const requestAgent = supertest.agent(app, null)
+    const requestAgent = supertest.agent(app)
 
     const loginResponse = await requestAgent
         .post('/login')
@@ -35,7 +35,7 @@ it("Can update company details for logged in user", async () => {
     const TEST_USER_EMAIL = `tarzan@jungle.com`;
     const TEST_USER_PASS = `123456`;
 
-    const requestAgent = supertest.agent(app, null)
+    const requestAgent = supertest.agent(app)
 
     const loginResponse = await requestAgent
         .post('/login')

@@ -8,6 +8,7 @@ export type ClientData = {
     email: string
     name: string
     companyDetails: CompanyDetails
+    createdAt: number
 };
 
 export class ClientsRepository extends BaseRepository<ClientData> {
@@ -42,7 +43,7 @@ export class ClientsRepository extends BaseRepository<ClientData> {
         if ( companyByRegIdOrTaxId ) {
             throw new Error(`company details (vat or reg number) already exist in another client company`);
         }
-        return super.add(client);
+        return super.add({...client, createdAt: new Date().getTime() });
     }
 
     getCompanyByTaxOrVatId(companyDetails: CompanyDetails, user_id: string) {
