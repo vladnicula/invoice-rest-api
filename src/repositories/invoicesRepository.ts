@@ -3,6 +3,7 @@ import { BaseRepository } from './baseRepository';
 
 export type InvoiceData = {
     id: string
+    createdAt: number,
     invoice_number: string
     user_id: string
     client_id: string

@@ -3,6 +3,7 @@ import * as supertest from 'supertest'
 import { ClientsRepository, ClientData } from '../src/repositories/clientsRepository';
 import { InvoicesRepository } from '../src/repositories/invoicesRepository';
 import { UsersRepository } from '../src/repositories/usersRepository';
+import { GetClientsParams } from '../src/repositories/clientInvoicesRepoAggregate';
 
 const TEST_USER_EMAIL = `tarzan@jungle.com`;
 const TEST_USER_PASS = `123456`;
@@ -14,6 +15,8 @@ let usersRepo: UsersRepository;
 const targetUserId = '1111111'
 let client1Model: ClientData
 let client2Model: ClientData
+
+type ClientsQueryParams = Omit<GetClientsParams, 'userId'>
 
 beforeAll(async () => {
     await setup();
@@ -28,6 +31,7 @@ beforeAll(async () => {
     const client1 = await clientsRepo.add({
         name: "Client 1",
         user_id: targetUserId,
+        createdAt: new Date().getTime(),
         email: "client1@gmail.com",
         companyDetails: {
             name: "Incorporated",
@@ -44,6 +48,7 @@ beforeAll(async () => {
     const client2 = await clientsRepo.add({
         name: "Client 2",
         user_id: targetUserId,
+        createdAt: new Date().getTime(),
         email: "client2@gmail.com",
         companyDetails: {
             name: "Acme",
@@ -59,6 +64,7 @@ beforeAll(async () => {
     const firstInvoice = await invoiceRepo.add({
         invoice_number: "FirstInvoiceByTime",
         user_id: targetUserId,
+        createdAt: new Date().getTime(),
         client_id: client1.id,
         projectCode: "test",
         date: 1000,
@@ -69,6 +75,7 @@ beforeAll(async () => {
     const secondInvoice = await invoiceRepo.add({
         invoice_number: "SecondInvoiceByTime",
         user_id: targetUserId,
+        createdAt: new Date().getTime(),
         client_id: client1.id,
         projectCode: "test",
         date: 5000,
@@ -79,6 +86,7 @@ beforeAll(async () => {
     const thirdInvoice = await invoiceRepo.add({
         invoice_number: "ThirdInvoiceByTime",
         user_id: targetUserId,
+        createdAt: new Date().getTime(),
         client_id: client2.id,
         projectCode: "test",
         date: 7500,
@@ -89,6 +97,7 @@ beforeAll(async () => {
     const latestInvoice = await invoiceRepo.add({
         invoice_number: "LatestInvoiceByTime",
         user_id: targetUserId,
+        createdAt: new Date().getTime(),
         client_id: client1.id,
         projectCode: "test",
         date: 10000,
@@ -98,14 +107,14 @@ beforeAll(async () => {
 })
 
 it('Rejects access when not logged in', async () => {
-    const requestAgent = supertest.agent(app, null)
+    const requestAgent = supertest.agent(app)
 
     expect((await requestAgent.get('/clients')).status).toBe(403)
 })
 
 it('Gets a list of latest clients when no params specified', async () => {
     
-    const requestAgent = supertest.agent(app, null)
+    const requestAgent = supertest.agent(app)
 
     const response = await requestAgent
         .post('/login')
@@ -123,22 +132,19 @@ it('Gets a list of latest clients when no params specified', async () => {
 })
 
 it('Gets a list of latest clients ordered by name ASC', async () => {
-    const requestAgent = supertest.agent(app, null)
+    const requestAgent = supertest.agent(app)
 
     const response = await requestAgent
         .post('/login')
         .set('Content-Type', 'application/json')
         .send({ email: TEST_USER_EMAIL, password: TEST_USER_PASS })
 
-    const queryParams = {
-        sort: {
-            clientName: 'asc',
-        }
+    const queryParams: ClientsQueryParams = {
+        sort: "asc",
+        sortBy: "clientName"
     }
 
-    const encodeParamsString = encodeURIComponent(JSON.stringify(queryParams));
-
-    const clientsResponse = await requestAgent.get(`/clients?params=${encodeParamsString}`)
+    const clientsResponse = await requestAgent.get(`/clients?${new URLSearchParams(queryParams as Record<string, string>).toString()}`)
         .set("x-access-token", response.body.token)
 
     expect(clientsResponse.status).toBe(200)
@@ -147,7 +153,7 @@ it('Gets a list of latest clients ordered by name ASC', async () => {
 })
 
 it('Gets a list of latest clients ordered by compandy name ASC', async () => {
-    const requestAgent = supertest.agent(app, null)
+    const requestAgent = supertest.agent(app)
 
     const response = await requestAgent
         .post('/login')
@@ -155,15 +161,12 @@ it('Gets a list of latest clients ordered by compandy name ASC', async () => {
         .send({ email: TEST_USER_EMAIL, password: TEST_USER_PASS })
 
 
-    const queryParams = {
-        sort: {
-            companyName: 'asc',
-        }
+    const queryParams: ClientsQueryParams = {
+        sort: "asc",
+        sortBy: "companyName"
     }
     
-    const encodeParamsString = encodeURIComponent(JSON.stringify(queryParams));
-
-    const clientsResponse = await requestAgent.get(`/clients?params=${encodeParamsString}`)
+    const clientsResponse = await requestAgent.get(`/clients?${new URLSearchParams(queryParams as Record<string, string>).toString()}`)
         .set("x-access-token", response.body.token)
 
 
@@ -174,22 +177,19 @@ it('Gets a list of latest clients ordered by compandy name ASC', async () => {
 
 
 it('Gets a list of latest clients ordered by total billed ASC', async () => {
-    const requestAgent = supertest.agent(app, null)
+    const requestAgent = supertest.agent(app)
 
     const response = await requestAgent
         .post('/login')
         .set('Content-Type', 'application/json')
         .send({ email: TEST_USER_EMAIL, password: TEST_USER_PASS })
 
-    const queryParams = {
-        sort: {
-            totalBilled: 'asc',
-        }
+    const queryParams: ClientsQueryParams = {
+       sort: "asc",
+       sortBy: "totalBilled"
     }
     
-    const encodeParamsString = encodeURIComponent(JSON.stringify(queryParams));
-
-    const clientsResponse = await requestAgent.get(`/clients?params=${encodeParamsString}`)
+    const clientsResponse = await requestAgent.get(`/clients?${new URLSearchParams(queryParams as Record<string, string>).toString()}`)
         .set("x-access-token", response.body.token)
 
     expect(clientsResponse.status).toBe(200)
@@ -198,49 +198,42 @@ it('Gets a list of latest clients ordered by total billed ASC', async () => {
 })
 
 it('Gets a list of latest clients ordered by invoices count ASC', async () => {
-    const requestAgent = supertest.agent(app, null)
+    const requestAgent = supertest.agent(app)
 
     const response = await requestAgent
         .post('/login')
         .set('Content-Type', 'application/json')
         .send({ email: TEST_USER_EMAIL, password: TEST_USER_PASS })
 
-    const queryParams = {
-        sort: {
-            invoicesCount: 'asc',
-        }
-    }
-    
-    const encodeParamsString = encodeURIComponent(JSON.stringify(queryParams));
-
-    const clientsResponse = await requestAgent.get(`/clients?params=${encodeParamsString}`)
-        .set("x-access-token", response.body.token)
+    const queryParams: ClientsQueryParams = {
+        sort: "asc",
+        sortBy: "invoicesCount"
+     }
+     
+     const clientsResponse = await requestAgent.get(`/clients?${new URLSearchParams(queryParams as Record<string, string>).toString()}`)
+         .set("x-access-token", response.body.token)
 
     expect(clientsResponse.status).toBe(200)
     expect(clientsResponse.body.clients[0].invoicesCount).toBeLessThan(clientsResponse.body.clients[1].invoicesCount)
 })
 
 it('Gets a list of latest clients ordered by total billed ASC, paginiated using limit and offset', async () => {
-    const requestAgent = supertest.agent(app, null)
+    const requestAgent = supertest.agent(app)
 
     const response = await requestAgent
         .post('/login')
         .set('Content-Type', 'application/json')
         .send({ email: TEST_USER_EMAIL, password: TEST_USER_PASS })
-
-    const queryParams = {
-        sort: {
-            totalBilled: 'asc',
-        },
+    
+    const queryParams: ClientsQueryParams = {
+        sort: "asc",
+        sortBy: "totalBilled",
         offset: 1,
         limit: 2
-    }
-    
-    const encodeParamsString = encodeURIComponent(JSON.stringify(queryParams));
-
-    const clientsResponse = await requestAgent.get(`/clients?params=${encodeParamsString}`)
-        .set("x-access-token", response.body.token)
-
+     }
+     
+     const clientsResponse = await requestAgent.get(`/clients?${new URLSearchParams(queryParams as Record<string, string>).toString()}`)
+         .set("x-access-token", response.body.token)
     expect(clientsResponse.status).toBe(200)
     expect(clientsResponse.body.clients).toHaveLength(1)
 })
@@ -248,7 +241,7 @@ it('Gets a list of latest clients ordered by total billed ASC, paginiated using 
 
 it('Creates a new client for logged in user' , async () => {
 
-    const requestAgent = supertest.agent(app, null)
+    const requestAgent = supertest.agent(app)
 
     const response = await requestAgent
         .post('/login')
@@ -279,7 +272,7 @@ it('Creates a new client for logged in user' , async () => {
 
 it("Updates a client details", async () => {
     // login and cretae a new client
-    const requestAgent = supertest.agent(app, null)
+    const requestAgent = supertest.agent(app)
 
     const response = await requestAgent
         .post('/login')
@@ -329,7 +322,7 @@ it("Updates a client details", async () => {
 });
 
 it("gets a single client by id", async () => {
-    const requestAgent = supertest.agent(app, null)
+    const requestAgent = supertest.agent(app)
 
     const response = await requestAgent
         .post('/login')

@@ -6,39 +6,30 @@ type InvoiceWithClientDetails = {
     client: ClientData
 }
 
-export type InvoiceListingSortingByArgs = {
-    date?: "asc" | "desc"
-    price?: "asc" | "desc"
-    companyName?: "asc" | "desc"
-    dueDate?: "asc" | "desc"
-    creation?: "asc" | "desc"
-}
+export type InvoiceListingFilterByKeys = 'date' | 'price' | 'companyName' | 'dueDate' | 'creation'
+export type ClientListingSortKeys = 'clientName' | 'companyName' | 'totalBilled' | 'invoicesCount' | 'creation'
 
-export type InvoiceListingFilterByArgs = {
-    clientId?: string
-    date?: {
-        start?: number
-        end?: number
-    }
+export type GetInvoiceParams = {
+    userId: string;
+    clientId?: string;
+    projectCode?: string;
+    startDate?: number;
+    endDate?: number;
+    startDueDate?: number;
+    endDueDate?: number;
+    sort?: 'asc' | 'desc';
+    sortBy?: InvoiceListingFilterByKeys;
+    offset?: number;
+    limit?: number;
+};
 
-    dueDate?: {
-        start?: number
-        end?: number
-    }
-}
-
-export type ClientListingSortingByArgs = {
-    clientName?: "asc" | "desc"
-    companyName?: "asc" | "desc"
-    totalBilled?: "asc" | "desc"
-    invoicesCount?: "asc" | "desc"
-    creation?: "asc" | "desc"
-}
-
-export type ClientListingFilterByArgs = {
-    clientName?: string
-    companyName?: string
-}
+export type GetClientsParams = {
+    userId: string;
+    sortBy?: ClientListingSortKeys;
+    sort?: 'asc' | 'desc';
+    offset?: number;
+    limit?: number;
+};
 
 export class ClientInvoicesRepoAggregate {
     private static _instance: ClientInvoicesRepoAggregate;
@@ -55,8 +46,20 @@ export class ClientInvoicesRepoAggregate {
     private invoicesRepo: InvoicesRepository;
     private clientsRepo: ClientsRepository;
 
-    async getInvoices(params: {userId:string, filter?: InvoiceListingFilterByArgs, sort?: InvoiceListingSortingByArgs, offset?: number, limit?: number}) {
-        const { filter = {}, sort = {}, userId, offset = 0, limit = 20 } = params;
+    async getInvoices(params: GetInvoiceParams) {
+        const { 
+            clientId, 
+            projectCode,
+            startDate,
+            endDate,
+            startDueDate,
+            endDueDate,
+            sort = 'asc', 
+            sortBy, 
+            userId, 
+            offset = 0, 
+            limit = 20 
+        } = params;
 
         const allInvoices = this.invoicesRepo.getByUserId(userId)
         const allResults: InvoiceWithClientDetails[] = [];
@@ -68,82 +71,96 @@ export class ClientInvoicesRepoAggregate {
         }
 
         let filteredResults = allResults;
-        if ( Object.keys(filter).length ) {
-            if ( filter.clientId ) {
-                filteredResults = filteredResults.filter((item) => {
-                    return item.client.id === filter.clientId
-                })
-            }
 
-            if ( filter.date ) {
-                const startDate = filter.date.start ?? -Infinity;
-                const endDate = filter.date.end ?? Infinity;
-                filteredResults = filteredResults.filter((item) => {
-                    return item.invoice.date >= startDate && item.invoice.date < endDate;
-                })
-            }
+        if ( clientId ) {
+            filteredResults = filteredResults.filter((item) => {
+                return item.client.id === clientId
+            })
+        }
 
-            if ( filter.dueDate ) {
-                const startDate = filter.dueDate.start ?? -Infinity;
-                const endDate = filter.dueDate.end ?? Infinity;
-                filteredResults = filteredResults.filter((item) => {
-                    return item.invoice.dueDate >= startDate && item.invoice.dueDate < endDate;
-                })
-            }
 
+        if ( projectCode ) {
+            filteredResults = filteredResults.filter((item) => {
+                return item.invoice.projectCode === projectCode
+            })
+        }
+
+        if ( startDate ) {
+            filteredResults = filteredResults.filter((item) => {
+                return item.invoice.date >= startDate;
+            })
+        }
+
+        if ( endDate ) {
+            filteredResults = filteredResults.filter((item) => {
+                return item.invoice.date < endDate
+            })
+        }
+
+        if ( startDueDate ) {
+            filteredResults = filteredResults.filter((item) => {
+                return item.invoice.dueDate >= startDueDate;
+            })
+        }
+
+        if ( endDueDate ) {
+            filteredResults = filteredResults.filter((item) => {
+                return item.invoice.dueDate < endDueDate
+            })
         }
 
         let sortedResults = filteredResults;
-        if ( Object.keys(sort).length ) {
-            if ( sort.creation === 'desc' ) {
-                sortedResults = sortedResults.reverse();
-            }
-            if ( sort.date ) {
-                const coef = sort.date === 'asc' ? 1 : -1
+
+        const coef = sort === 'asc' ? 1 : -1
+
+        switch (sortBy) {
+            case "creation":
+                sortedResults = sortedResults.sort((a,b) => {
+                    if ( a.invoice.createdAt > b.invoice.createdAt ) {
+                        return coef;
+                    }
+                    return -coef;
+                })
+            case "date":
                 sortedResults = sortedResults.sort((a,b) => {
                     if ( a.invoice.date > b.invoice.date ) {
                         return coef;
                     }
                     return -coef;
-                });
-            }
-
-            if ( sort.dueDate ) {
-                const coef = sort.dueDate === 'asc' ? 1 : -1
+                })
+                break;
+            case "dueDate":
                 sortedResults = sortedResults.sort((a,b) => {
                     if ( a.invoice.dueDate > b.invoice.dueDate ) {
                         return coef;
                     }
                     return -coef;
-                });
-            }
-
-            if ( sort.companyName ) {
-                const coef = sort.companyName === 'asc' ? 1 : -1;
+                })
+                break;
+            case "companyName":
                 sortedResults = sortedResults.sort((a, b) => {
                     if ( a.client.companyDetails.name > b.client.companyDetails.name ) {
                         return coef;
                     }
                     return -coef;
                 })
-            }
-
-            if ( sort.price ) {
-                const coef = sort.price === 'asc' ? 1 : -1;
+                break;
+            case "price":
                 sortedResults = sortedResults.sort((a, b) => {
                     if ( a.invoice.value > b.invoice.value ) {
                         return coef;
                     }
                     return -coef;
                 })
-            }
+                break;
         }
+
         return { result: sortedResults.slice(offset, offset+limit), total: sortedResults.length }
     }
 
 
-    async getClients(params: { userId: string; filter?: InvoiceListingFilterByArgs; sort: ClientListingSortingByArgs; offset?: number, limit?: number }) {
-        const { filter = {}, sort = {}, userId, offset = 0, limit = 20 } = params;
+    async getClients(params: GetClientsParams) {
+        const { sort, sortBy, userId, offset = 0, limit = 20 } = params;
         const allClients = await this.clientsRepo.getByUserId(userId)
         const allInvoices = await this.invoicesRepo.getByUserId(userId)
 
@@ -164,58 +181,56 @@ export class ClientInvoicesRepoAggregate {
         })
 
         let filteredResults = allClientsWithTotalBilledAndNumberOfInvoices;
-        if ( Object.keys(filter).length ) {
-            if ( filter.clientId ) {
-                filteredResults = filteredResults.filter((item) => {
-                    return item.id === filter.clientId
-                })
-            }
-        }
 
         let sortedResults = filteredResults;
-        if ( Object.keys(sort).length ) {
-            if ( sort.creation === 'desc' ) {
-                sortedResults = sortedResults.reverse();
-            }
-            if ( sort.clientName ) {
-                const coef = sort.clientName === 'asc' ? 1 : -1
+        if ( sort === 'desc' ) {
+            sortedResults = sortedResults.reverse();
+        }
+        const coef = sort === 'asc' ? 1 : -1
+
+        switch (sortBy) {
+            case "clientName":
                 sortedResults = sortedResults.sort((a,b) => {
                     if ( a.name > b.name ) {
                         return coef;
                     }
                     return -coef;
                 });
-            }
+                break;
 
-            if ( sort.companyName ) {
-                const coef = sort.companyName === 'asc' ? 1 : -1;
-                sortedResults = sortedResults.sort((a, b) => {
+            case "companyName":
+                sortedResults = sortedResults.sort((a,b) => {
                     if ( a.companyDetails.name > b.companyDetails.name ) {
                         return coef;
                     }
                     return -coef;
-                })
-            }
-
-            if ( sort.totalBilled ) {
-                const coef = sort.totalBilled === 'asc' ? 1 : -1;
+                });
+                break;
+            case "totalBilled":
                 sortedResults = sortedResults.sort((a, b) => {
                     if ( a.totalBilled > b.totalBilled ) {
                         return coef;
                     }
                     return -coef;
                 })
-            }
-
-            if ( sort.invoicesCount ) {
-                const coef = sort.invoicesCount === 'asc' ? 1 : -1;
+                break;
+            
+            case "invoicesCount":
                 sortedResults = sortedResults.sort((a, b) => {
                     if ( a.invoicesCount > b.invoicesCount ) {
                         return coef;
                     }
                     return -coef;
                 })
-            }
+                break
+            case "creation": 
+                sortedResults = sortedResults.sort((a, b) => {
+                    if ( a.createdAt > b.createdAt ) {
+                        return coef;
+                    }
+                    return -coef;
+                })
+            break
         }
 
         return { result: sortedResults.slice(offset, offset+limit), total: sortedResults.length }
@@ -264,6 +279,7 @@ export class ClientInvoicesRepoAggregate {
             projectCode,
             meta,
             value,
+            createdAt: new Date().getTime()
          })
 
          return createdInvoice;

@@ -11,6 +11,7 @@ it("Adds client to repository", async () => {
     const newClient = await repo.add({
         user_id: '123',
         email: 'testcreation123@test.com',
+        createdAt: new Date().getTime(),
         name: 'John',
         companyDetails: {
             name: "company",
@@ -26,6 +27,7 @@ it("Adds client to repository", async () => {
 it("Does not add add client with same email or company reg or vat", async () => {
     const newClient = await repo.add({
         user_id: '123',
+        createdAt: new Date().getTime(),
         email: '123',
         name: 'John',
         companyDetails: {
@@ -44,6 +46,7 @@ it("Does not add add client with same email or company reg or vat", async () => 
 
         await repo.add({
             user_id: '123',
+            createdAt: new Date().getTime(),
             email: 'different123',
             name: 'John',
             companyDetails: {
@@ -66,6 +69,7 @@ it("Does not add add client with same email or company reg or vat", async () => 
 
         await repo.add({
             user_id: '123',
+            createdAt: new Date().getTime(),
             email: '123',
             name: 'John',
             companyDetails: {

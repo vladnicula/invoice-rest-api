@@ -9,7 +9,7 @@ beforeAll(async () => {
 })
 
 it('Can not access protected content when not authenticated', async () => {
-    const requestAgent = supertest.agent(app, null)
+    const requestAgent = supertest.agent(app)
     expect((await requestAgent.get('/clients')).status).toBe(403)
     expect((await requestAgent.get('/invoices')).status).toBe(403)
 })
@@ -19,7 +19,7 @@ it("Can access all content when authenticated", async () => {
   const TEST_USER_PASS = `123456`;
   const TEST_USER_ID = `1111111`;
   
-  const requestAgent = supertest.agent(app, null)
+  const requestAgent = supertest.agent(app)
 
   const response = await requestAgent
     .post('/login')
@@ -38,7 +38,7 @@ it("Can access all content when authenticated", async () => {
 
 
 it("Can resigtered new user and log in with them", async () => {
-  const requestAgent = supertest.agent(app, null)
+  const requestAgent = supertest.agent(app)
   const NEW_TEST_USER_EMAIL = `unique-testnewuser@test.com`
   const NEW_PASS_TEST = `123__123`
   const registerResponse = await requestAgent
@@ -73,7 +73,7 @@ it("Can resigtered new user and log in with them", async () => {
 })
 
 it("Cannot register twice with the same email", async () => {
-  const requestAgent = supertest.agent(app, null)
+  const requestAgent = supertest.agent(app)
   const NEW_TEST_USER_EMAIL = `doubleuser@test.com`
   const NEW_PASS_TEST = `123__123`
 
