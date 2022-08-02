@@ -8,9 +8,7 @@
             "name": "Skynet 01",
             "address": "1st Bulevard Street",
             "vatNumber": "1234",
-            "regNumber": "9876",
-            "iban": "DE89370400440532013000",
-            "swift": "CTCBIDJASBY"
+            "regNumber": "9876"
         }
     },
     {
@@ -61,7 +59,6 @@
             "regNumber": "9876",
             "iban": "DE89370400440532313000",
             "swift": "CTCBIDJASBY"
-        },
-        "avatar": "public/avatar_555_1f88281df060b7c3d16ae09cee64b965.jpeg"
+        }
     }
 ]
