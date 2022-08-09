@@ -13,7 +13,7 @@ export const verifyTokenMiddleware: RequestHandler = (req, res, next) => {
      * Add a quick access hack for work done in Week 02-04 for office hours.
      * Allows bypassing user login for these 4 hardcodes users.
      */
-    if (token === '111' || token === '222' || token === '333' || token === '444' || token === '555' ) {
+    if (token === '111' || token === '222' || token === '555' ) {
         // @ts-ignore because we don't have time to 
         // write safe types for req objects
         req.user = {

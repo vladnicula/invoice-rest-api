@@ -82,5 +82,20 @@
             "address": "Cupertino"
         },
         "id": "ms123456"
+    },
+    {
+        "user_id": "222",
+        "email": "hobbs@sandman.com",
+        "name": "Hobbs Sandamn",
+        "companyDetails": {
+            "name": "Dreamland Inc",
+            "address": "Dreamworld",
+            "vatNumber": "12319312",
+            "regNumber": "312421421",
+            "iban": "fu8da9fa",
+            "swift": "d7sa980a"
+        },
+        "createdAt": 1660061926790,
+        "id": "042e7793-df85-4bf5-966e-b986bf444492"
     }
 ]

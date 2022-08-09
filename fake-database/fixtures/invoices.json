@@ -394,5 +394,148 @@
         "date": 1652679087691,
         "dueDate": 1655271087691,
         "value": 8025
+    },
+    {
+        "user_id": "222",
+        "invoice_number": "0003",
+        "client_id": "042e7793-df85-4bf5-966e-b986bf444492",
+        "date": 1659999600000,
+        "dueDate": 1662678000000,
+        "projectCode": "312312",
+        "meta": {
+            "items": [
+                {
+                    "price": 1000,
+                    "description": "Work work"
+                }
+            ]
+        },
+        "value": 1000,
+        "createdAt": 1660061952232,
+        "id": "566e7b4d-f839-4df0-821c-b432d1b141d7",
+        "items": [
+            {
+                "price": 1000,
+                "description": "Work work"
+            }
+        ]
+    },
+    {
+        "user_id": "222",
+        "invoice_number": "17331",
+        "client_id": "1644482648082",
+        "date": 1659999600000,
+        "dueDate": 1662678000000,
+        "projectCode": "STR01",
+        "meta": {
+            "items": [
+                {
+                    "price": 1250,
+                    "description": "Work work"
+                }
+            ]
+        },
+        "value": 1250,
+        "createdAt": 1660061976924,
+        "id": "eb880315-29de-47c2-86e0-9ee003c3484e"
+    },
+    {
+        "user_id": "222",
+        "invoice_number": "0007",
+        "client_id": "042e7793-df85-4bf5-966e-b986bf444492",
+        "date": 1656630000000,
+        "dueDate": 1659308400000,
+        "projectCode": "STR02",
+        "meta": {
+            "items": [
+                {
+                    "price": 2150,
+                    "description": "Work work"
+                }
+            ]
+        },
+        "value": 2150,
+        "createdAt": 1660062014645,
+        "id": "69b32f97-0214-42a8-87b8-ffb2556929fd"
+    },
+    {
+        "user_id": "222",
+        "invoice_number": "0001",
+        "client_id": "042e7793-df85-4bf5-966e-b986bf444492",
+        "date": 1651422016000,
+        "dueDate": 1654124400000,
+        "projectCode": "STR02",
+        "meta": {
+            "items": [
+                {
+                    "price": 1000,
+                    "description": "Work work"
+                },
+                {
+                    "price": 3000,
+                    "description": "Equipment for Work work"
+                }
+            ]
+        },
+        "value": 4000,
+        "createdAt": 1660062062325,
+        "id": "c531dee4-f90b-4c81-8864-cdec85f035d6"
+    },
+    {
+        "user_id": "222",
+        "invoice_number": "0002",
+        "client_id": "042e7793-df85-4bf5-966e-b986bf444492",
+        "date": 1654038000000,
+        "dueDate": 1656630000000,
+        "projectCode": "STR02",
+        "meta": {
+            "items": [
+                {
+                    "price": 1000,
+                    "description": "Work work"
+                }
+            ]
+        },
+        "value": 1000,
+        "createdAt": 1660062080418,
+        "id": "42a7f533-580e-4b04-aca7-445b233f6f68"
+    },
+    {
+        "user_id": "222",
+        "invoice_number": "0005",
+        "client_id": "042e7793-df85-4bf5-966e-b986bf444492",
+        "date": 1659308400000,
+        "dueDate": 1664233200000,
+        "projectCode": "STR01",
+        "meta": {
+            "items": [
+                {
+                    "price": 2050,
+                    "description": "Work work in the future"
+                }
+            ]
+        },
+        "value": 2050,
+        "createdAt": 1660062142852,
+        "id": "e452a831-726a-4ae2-8462-485f08ca34e2"
+    },
+    {
+        "user_id": "222",
+        "invoice_number": "0006",
+        "client_id": "042e7793-df85-4bf5-966e-b986bf444492",
+        "date": 1655247600000,
+        "dueDate": 1657839600000,
+        "projectCode": "STR02",
+        "meta": {
+            "items": [
+                {
+                    "price": 1500,
+                    "description": "Work work"
+                }
+            ]
+        },
+        "value": 1500,
+        "createdAt": 1660062174053,
+        "id": "82401f60-cfe6-416c-af36-b707dcc9aa6f"
     }
 ]
