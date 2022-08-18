@@ -16,10 +16,18 @@ export const mainRoutes = (app: Express ) => {
 
     app.get("/invoices", verifyTokenMiddleware, async (req, res) => {
         try {
-            const {
+            let {
                 clientId, startDueDate, endDueDate, startDate, endDate, projectCode,
                 sort, sortBy, offset, limit 
             } = req.query as Record<string, any>;
+
+            if ( typeof limit === 'string' ) {
+                limit = parseInt(limit, 10)
+            }
+
+            if ( typeof offset === 'string' ) {
+                offset = parseInt(offset, 10)
+            }
 
             const invoiceAggregate = app.get("invoiceClientAggregate") as ClientInvoicesRepoAggregate
             const userId = (req as any).user.user_id;
@@ -86,7 +94,14 @@ export const mainRoutes = (app: Express ) => {
     app.get("/clients", verifyTokenMiddleware, async (req, res) => {
         const invoiceAggregate = app.get("invoiceClientAggregate") as ClientInvoicesRepoAggregate
         try {
-            const { sort, sortBy, offset, limit } = req.query as Record<string, any>;
+            let { sort, sortBy, offset, limit } = req.query as Record<string, any>;
+            if ( typeof limit === 'string' ) {
+                limit = parseInt(limit, 10)
+            }
+
+            if ( typeof offset === 'string' ) {
+                offset = parseInt(offset, 10)
+            }
             const userId = (req as any).user.user_id;
             const { result, total } = await invoiceAggregate.getClients({
                 userId, sort, sortBy, offset, limit
