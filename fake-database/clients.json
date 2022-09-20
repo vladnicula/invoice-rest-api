@@ -136,5 +136,19 @@
         },
         "createdAt": 1663079108597,
         "id": "226b6c85-6b71-4a6e-a370-0ba6ade870f2"
+    },
+    {
+        "user_id": "555",
+        "email": "boby@test.com",
+        "name": "Hello",
+        "companyDetails": {
+            "name": "tedst",
+            "vatNumber": "hey",
+            "regNumber": "ok",
+            "iban": "2312312312",
+            "swift": "321312"
+        },
+        "createdAt": 1663656360733,
+        "id": "c93b7bf1-fe64-499c-aaf8-79481b833684"
     }
 ]

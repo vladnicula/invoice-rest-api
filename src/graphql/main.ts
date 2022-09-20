@@ -24,6 +24,8 @@ export const graphQLRoute = (app: Express) => {
             vatNumber: { type: GraphQLString },
             regNumber: { type: GraphQLString },
             address: { type: GraphQLString },
+            iban: { type: GraphQLString },
+            swift: { type: GraphQLString }
         })
     })
 
@@ -110,6 +112,8 @@ export const graphQLRoute = (app: Express) => {
                                 vatNumber: { type: GraphQLString },
                                 regNumber: { type: GraphQLString },
                                 address: { type: GraphQLString },
+                                iban: { type: GraphQLString },
+                                swift: { type: GraphQLString }
                             }
                         })
                     }
