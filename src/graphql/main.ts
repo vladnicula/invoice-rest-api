@@ -13,7 +13,7 @@ import {
 } from 'graphql'
 import { ClientsRepository } from '../repositories/clientsRepository'
 import { verifyTokenMiddleware } from '../middleware/verifyTokenMiddleware'
-import { ClientInvoicesRepoAggregate } from '../repositories/clientInvoicesRepoAggregate'
+import { ClientInvoicesRepoAggregate, ClientListingSortKeys } from '../repositories/clientInvoicesRepoAggregate'
   
 export const graphQLRoute = (app: Express) => {
 
@@ -119,8 +119,6 @@ export const graphQLRoute = (app: Express) => {
                     const userId = (req as any)?.user?.user_id as string ?? "555";
                     const clientById = await clientsRepo.getById(req.body.id)
 
-                    // console.log("args", args)
-
                     if ( clientById  ) {
                         if ( clientById.user_id !== userId ) {
                             throw new Error("Client not found. Cannot update.")
@@ -158,9 +156,11 @@ export const graphQLRoute = (app: Express) => {
                 async resolve (parent, args, {req}, info) {
                     const invoiceAggregate = app.get("invoiceClientAggregate") as ClientInvoicesRepoAggregate
                     const { sort, offset, limit } = args
+                    const sortByKey = Object.keys(sort ?? [])[0] as ClientListingSortKeys
+                    const sortOrder = sort[sortByKey]
                     const userId = (req as any)?.user?.user_id ?? "555";
                     const { result: results, total } = await invoiceAggregate.getClients({
-                        userId, sort, offset, limit
+                        userId, sort: sortOrder, offset, limit, sortBy: sortByKey
                     })
                     return { results, total }
                 }

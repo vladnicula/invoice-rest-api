@@ -97,5 +97,44 @@
         },
         "createdAt": 1660061926790,
         "id": "042e7793-df85-4bf5-966e-b986bf444492"
+    },
+    {
+        "user_id": "555",
+        "email": "vlad@test.com",
+        "name": "Vlad",
+        "companyDetails": {
+            "name": "Toptal",
+            "vatNumber": "121321",
+            "regNumber": "13213123",
+            "address": "Earth"
+        },
+        "createdAt": 1663078515770,
+        "id": "cf0f664f-a2bd-4ca4-9727-5c5219fa0c99"
+    },
+    {
+        "user_id": "555",
+        "email": "vlad@test2.com",
+        "name": "Vlad Second",
+        "companyDetails": {
+            "name": "Toptal",
+            "vatNumber": "12132321",
+            "regNumber": "13213132123",
+            "address": "Earth"
+        },
+        "createdAt": 1663078709756,
+        "id": "f56747f9-832e-48c3-a334-b38cc97f7d0e"
+    },
+    {
+        "user_id": "111",
+        "email": "vladnicula@gmail.com",
+        "name": "Vlad Nicula",
+        "companyDetails": {
+            "name": "Startlink",
+            "vatNumber": "dsada",
+            "regNumber": "dsadasd",
+            "address": "Str. Alexandru Vaida Voevod, Nr. 16, Bl.1b, Sc.Ii"
+        },
+        "createdAt": 1663079108597,
+        "id": "226b6c85-6b71-4a6e-a370-0ba6ade870f2"
     }
 ]
